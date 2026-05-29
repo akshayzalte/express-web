@@ -19,6 +19,7 @@ class AdminController extends GetxController {
   final productNameController = TextEditingController();
   final productDescController = TextEditingController();
   final productPriceController = TextEditingController();
+  final isProductSupply = false.obs;
 
   // Branch management inputs
   final branchNameController = TextEditingController();
@@ -112,6 +113,7 @@ class AdminController extends GetxController {
       name: name,
       description: desc,
       price: 0.0,
+      isSupply: isProductSupply.value,
     );
 
     _db.saveProduct(newProd);
@@ -126,6 +128,7 @@ class AdminController extends GetxController {
       name: productNameController.text.trim().isEmpty ? prod.name : productNameController.text.trim(),
       description: productDescController.text.trim().isEmpty ? prod.description : productDescController.text.trim(),
       price: 0.0,
+      isSupply: isProductSupply.value,
     );
 
     _db.saveProduct(updated);
@@ -143,6 +146,7 @@ class AdminController extends GetxController {
     productNameController.clear();
     productDescController.clear();
     productPriceController.clear();
+    isProductSupply.value = false;
   }
 
   // Branches CRUD

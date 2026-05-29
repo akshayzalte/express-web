@@ -107,10 +107,18 @@ class DatabaseService extends GetxService {
 
     // Seed Products
     products.addAll([
-      ProductModel(id: 'prod_1', name: 'Zirconia Crown', description: 'High translucency, multi-layered zirconia restoration.', price: 150.00),
-      ProductModel(id: 'prod_2', name: 'E.Max Crown', description: 'Lithium disilicate glass-ceramic for premium aesthetics.', price: 180.00),
-      ProductModel(id: 'prod_3', name: 'PFM Crown', description: 'Porcelain fused to cobalt-chromium metal alloy framework.', price: 120.00),
-      ProductModel(id: 'prod_4', name: 'Implant Abutment', description: 'Custom titanium abutment with high precision fitting.', price: 250.00),
+      // Lab restorations (Crowns, etc.)
+      ProductModel(id: 'prod_1', name: 'Zirconia Crown', description: 'High translucency, multi-layered zirconia restoration.', price: 150.00, isSupply: false),
+      ProductModel(id: 'prod_2', name: 'E.Max Crown', description: 'Lithium disilicate glass-ceramic for premium aesthetics.', price: 180.00, isSupply: false),
+      ProductModel(id: 'prod_3', name: 'PFM Crown', description: 'Porcelain fused to cobalt-chromium metal alloy framework.', price: 120.00, isSupply: false),
+      ProductModel(id: 'prod_4', name: 'Implant Abutment', description: 'Custom titanium abutment with high precision fitting.', price: 250.00, isSupply: false),
+
+      // Clinic supplies (Inventory items)
+      ProductModel(id: 'sup_1', name: 'Nitrile Examination Gloves', description: 'Premium powder-free, medical-grade nitrile gloves (Box of 100).', price: 0.0, isSupply: true),
+      ProductModel(id: 'sup_2', name: 'Digital Sensor Sleeves', description: 'Disposable protective barrier sleeves for intraoral digital X-ray sensors.', price: 0.0, isSupply: true),
+      ProductModel(id: 'sup_3', name: 'Dental Cotton Rolls', description: 'Highly absorbent, medical-grade cotton rolls for moisture control.', price: 0.0, isSupply: true),
+      ProductModel(id: 'sup_4', name: 'Saliva Ejector Tips', description: 'Flexible disposable saliva ejectors with non-removable comfort tips.', price: 0.0, isSupply: true),
+      ProductModel(id: 'sup_5', name: 'Micro Applicator Brushes', description: 'Non-linting microbrush applicators for bonding agents and etchants.', price: 0.0, isSupply: true),
     ]);
 
     // Seed Branches

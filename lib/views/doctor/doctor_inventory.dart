@@ -88,8 +88,8 @@ class _DoctorInventoryState extends State<DoctorInventory> {
               child: Obx(() {
                 final query = searchQuery.value.toLowerCase().trim();
                 final prodList = db.products.where((p) {
-                  return p.name.toLowerCase().contains(query) ||
-                      p.description.toLowerCase().contains(query);
+                  return p.isSupply && (p.name.toLowerCase().contains(query) ||
+                      p.description.toLowerCase().contains(query));
                 }).toList();
 
                 if (prodList.isEmpty) {

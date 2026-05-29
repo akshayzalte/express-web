@@ -81,12 +81,41 @@ class ProductManagement extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            prod.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                prod.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: prod.isSupply
+                                      ? Colors.orange.withOpacity(0.15)
+                                      : Colors.blue.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: prod.isSupply
+                                        ? Colors.orange.withOpacity(0.3)
+                                        : Colors.blue.withOpacity(0.3),
+                                  ),
+                                ),
+                                child: Text(
+                                  prod.isSupply ? 'Supply' : 'Crown/Lab',
+                                  style: TextStyle(
+                                    color: prod.isSupply
+                                        ? (isDark ? Colors.orange[300] : Colors.orange[800])
+                                        : (isDark ? Colors.blue[300] : Colors.blue[800]),
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 2),
                           Text(
@@ -126,6 +155,7 @@ class ProductManagement extends StatelessWidget {
     if (product != null) {
       controller.productNameController.text = product.name;
       controller.productDescController.text = product.description;
+      controller.isProductSupply.value = product.isSupply;
     } else {
       controller.clearProductInputs();
     }
@@ -158,6 +188,14 @@ class ProductManagement extends StatelessWidget {
                 maxLines: 2,
               ),
               const SizedBox(height: 12),
+              Obx(() => SwitchListTile.adaptive(
+                    title: const Text('Clinic Supply / Consumable'),
+                    subtitle: const Text('Available in Doctor Inventory (e.g. gloves, sleeves)'),
+                    value: controller.isProductSupply.value,
+                    activeColor: isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary,
+                    onChanged: (val) => controller.isProductSupply.value = val,
+                    contentPadding: EdgeInsets.zero,
+                  )),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

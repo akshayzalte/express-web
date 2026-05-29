@@ -196,7 +196,7 @@ class NewOrderForm extends StatelessWidget {
                           customBgColor: isDark ? Colors.white.withOpacity(0.04) : Colors.white.withOpacity(0.4),
                           child: DropdownButtonFormField<String>(
                             value: controller.selectedProduct.value.isEmpty ? null : controller.selectedProduct.value,
-                            items: db.products.map((p) {
+                            items: db.products.where((p) => !p.isSupply).map((p) {
                               return DropdownMenuItem<String>(
                                 value: p.name,
                                 child: Text(p.name),

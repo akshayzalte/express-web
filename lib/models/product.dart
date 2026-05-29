@@ -3,12 +3,14 @@ class ProductModel {
   final String name;
   final String description;
   final double price;
+  final bool isSupply;
 
   ProductModel({
     required this.id,
     required this.name,
     required this.description,
     required this.price,
+    this.isSupply = false,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class ProductModel {
       name: json['name'] as String,
       description: json['description'] as String,
       price: (json['price'] as num).toDouble(),
+      isSupply: json['isSupply'] as bool? ?? false,
     );
   }
 
@@ -26,6 +29,7 @@ class ProductModel {
       'name': name,
       'description': description,
       'price': price,
+      'isSupply': isSupply,
     };
   }
 }
