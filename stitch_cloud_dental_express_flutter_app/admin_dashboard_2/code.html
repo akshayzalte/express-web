@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#768baf",
+                        "secondary": "#006c4e",
+                        "tertiary-container": "#002635",
+                        "outline": "#74777e",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2b3136",
+                        "secondary-fixed-dim": "#68dbae",
+                        "tertiary": "#000f17",
+                        "tertiary-fixed": "#c2e8ff",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b2c7ef",
+                        "primary-fixed-dim": "#b2c7ef",
+                        "surface": "#f5faff",
+                        "on-secondary-fixed": "#002115",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary-fixed-variant": "#324768",
+                        "background": "#f5faff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#021c3a",
+                        "on-surface": "#161c21",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-container-low": "#eef4fa",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dde3e9",
+                        "on-tertiary-container": "#0095c4",
+                        "tertiary-fixed-dim": "#75d1ff",
+                        "on-background": "#161c21",
+                        "on-secondary-fixed-variant": "#00513a",
+                        "on-secondary-container": "#007151",
+                        "surface-tint": "#4a5f81",
+                        "surface-container": "#e9eff5",
+                        "surface-bright": "#f5faff",
+                        "inverse-on-surface": "#ebf1f7",
+                        "surface-container-high": "#e3e9ef",
+                        "surface-dim": "#d5dbe1",
+                        "surface-container-highest": "#dde3e9",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#0a2342",
+                        "primary": "#000d22",
+                        "secondary-container": "#83f5c6",
+                        "secondary-fixed": "#86f8c9",
+                        "on-tertiary-fixed": "#001e2b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "container-padding": "16px",
+                        "base": "8px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "body-md": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        
+        .bg-mesh {
+            background-color: #f5faff;
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(220,100%,74%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+            background-size: cover;
+            background-attachment: fixed;
+            opacity: 0.15;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .counter-anim {
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Glacier Design System Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glacier-entrance {
+            animation: fadeInUp 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .glacier-stagger {
+            opacity: 0;
+            animation: fadeInUp 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        button {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, opacity 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.96) !important;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .glacier-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glacier-shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md text-body-md pt-16 pb-20 md:pb-0 relative glacier-entrance">
+<div class="bg-mesh"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl shadow-none border-b border-white/25 flex justify-between items-center px-margin-mobile h-16 glass-panel">
+<button class="text-primary dark:text-primary-fixed hover:bg-white/10 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            Cloud Dental Express
+        </div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/25">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of an executive in a modern clinic environment. Bright, even lighting. Neutral background. High tech aesthetic. High end photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDsn69smUH6hKfULsDrabwrJWloyuD2bvHH0cZ-2jsD0IPYbEQLyad4rQ69cXiVwCygNlbVFNFjUNcSyWElqjB7jKio2vdVUGPfkd6JlZvBkwFjHrTZhjXF_ys1IHr_Ckjx8naRn_i9llXpR74wqbM2CWFob_oCwmJmwNrJlPzj6_whLuZlktX623sOvYoVzdCdoVRN2MLwYAa0NelVyTLD6zR_Vdd8umWmy2Z53QTL66zuchwHUPJSIOASnO_rpLLKvVAFMgHMFT2"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-margin-mobile py-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 relative z-10">
+<!-- Dashboard Header -->
+<div class="md:col-span-12 mb-2 glacier-stagger" style="animation-delay: 0ms;">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Overview</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Live metrics for lab operations.</p>
+</div>
+<!-- Bento Grid / Glass Cards -->
+<div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-card-gap">
+<!-- Card 1 -->
+<div class="glass-panel glacier-shimmer rounded-xl p-4 flex flex-col justify-between h-32 hover:-translate-y-1 transition-transform duration-300 glacier-stagger">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Total Orders</span>
+<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-primary counter" data-target="1248">0</div>
+<div class="text-xs text-secondary-fixed-dim font-medium">+12% this week</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel glacier-shimmer rounded-xl p-4 flex flex-col justify-between h-32 hover:-translate-y-1 transition-transform duration-300 glacier-stagger">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Pending</span>
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-primary counter" data-target="86">0</div>
+<div class="text-xs text-outline font-medium">Needs attention</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel glacier-shimmer rounded-xl p-4 flex flex-col justify-between h-32 hover:-translate-y-1 transition-transform duration-300 glacier-stagger">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">In Progress</span>
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-primary counter" data-target="312">0</div>
+<div class="text-xs text-on-tertiary-container font-medium">Currently milling</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-panel glacier-shimmer rounded-xl p-4 flex flex-col justify-between h-32 hover:-translate-y-1 transition-transform duration-300 glacier-stagger">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md">Delivered</span>
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg text-primary counter" data-target="850">0</div>
+<div class="text-xs text-secondary-fixed-dim font-medium">Completed</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Section -->
+<div class="md:col-span-12 lg:col-span-8 glass-panel rounded-xl mt-4 overflow-hidden glacier-stagger">
+<div class="p-4 border-b border-white/25 flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h2>
+<button class="font-label-md text-label-md text-primary hover:underline">View All</button>
+</div>
+<div class="divide-y divide-white/20 list-container">
+<!-- Activity Item 1 -->
+<div class="p-4 flex items-center justify-between hover:bg-white/10 transition-colors glacier-stagger">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary-fixed-dim">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Crown Milling Completed</div>
+<div class="text-xs text-on-surface-variant">Order #9921 - Dr. Smith</div>
+</div>
+</div>
+<div class="text-xs text-outline">10 min ago</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="p-4 flex items-center justify-between hover:bg-white/10 transition-colors glacier-stagger">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Scan Quality Issue</div>
+<div class="text-xs text-on-surface-variant">Order #9928 - Upper Arch</div>
+</div>
+</div>
+<div class="text-xs text-outline">45 min ago</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="p-4 flex items-center justify-between hover:bg-white/10 transition-colors glacier-stagger">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed/20 flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">New Scan Received</div>
+<div class="text-xs text-on-surface-variant">Order #9930 - Dr. Allen</div>
+</div>
+</div>
+<div class="text-xs text-outline">2 hrs ago</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 shadow-none flex justify-around items-center h-20 pb-safe px-base glass-panel">
+<!-- Active Tab: Orders (Dashboard Context) -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold font-label-md text-label-md hover:bg-white/5 transition-all duration-200 p-2 w-full h-full rounded-lg">
+<span class="material-symbols-outlined" data-icon="assignment" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="mt-1">Orders</span>
+</button>
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 font-label-md text-label-md hover:bg-white/5 transition-all duration-200 p-2 w-full h-full rounded-lg">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="mt-1">Products</span>
+</button>
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 font-label-md text-label-md hover:bg-white/5 transition-all duration-200 p-2 w-full h-full rounded-lg">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="mt-1">Team</span>
+</button>
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 font-label-md text-label-md hover:bg-white/5 transition-all duration-200 p-2 w-full h-full rounded-lg">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="mt-1">Profile</span>
+</button>
+</nav>
+<script>
+        // Glacier Motion System Initialization
+        document.addEventListener("DOMContentLoaded", () => {
+            // Apply stagger delays to elements with glacier-stagger class
+            const staggerElements = document.querySelectorAll('.glacier-stagger');
+            staggerElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 60}ms`;
+            });
+
+            // Remove shimmer effect after "loading" completes
+            setTimeout(() => {
+                const shimmers = document.querySelectorAll('.glacier-shimmer');
+                shimmers.forEach(el => el.classList.remove('glacier-shimmer'));
+            }, 1500);
+
+            // Simple counter animation script
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 1500; // ms
+                const increment = target / (duration / 16); // 60fps
+                
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                updateCounter();
+            });
+        });
+    </script>
+</body></html>

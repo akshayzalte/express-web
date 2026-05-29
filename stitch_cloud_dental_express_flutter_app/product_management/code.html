@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - Products</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c6cf",
+                    "on-primary-container": "#768baf",
+                    "secondary": "#006c4e",
+                    "tertiary-container": "#002635",
+                    "outline": "#74777e",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2b3136",
+                    "secondary-fixed-dim": "#68dbae",
+                    "tertiary": "#000f17",
+                    "tertiary-fixed": "#c2e8ff",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b2c7ef",
+                    "primary-fixed-dim": "#b2c7ef",
+                    "surface": "#f5faff",
+                    "on-secondary-fixed": "#002115",
+                    "primary-fixed": "#d5e3ff",
+                    "on-primary-fixed-variant": "#324768",
+                    "background": "#f5faff",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#021c3a",
+                    "on-surface": "#161c21",
+                    "on-tertiary-fixed-variant": "#004d67",
+                    "surface-container-low": "#eef4fa",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#dde3e9",
+                    "on-tertiary-container": "#0095c4",
+                    "tertiary-fixed-dim": "#75d1ff",
+                    "on-background": "#161c21",
+                    "on-secondary-fixed-variant": "#00513a",
+                    "on-secondary-container": "#007151",
+                    "surface-tint": "#4a5f81",
+                    "surface-container": "#e9eff5",
+                    "surface-bright": "#f5faff",
+                    "inverse-on-surface": "#ebf1f7",
+                    "surface-container-high": "#e3e9ef",
+                    "surface-dim": "#d5dbe1",
+                    "surface-container-highest": "#dde3e9",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#0a2342",
+                    "primary": "#000d22",
+                    "secondary-container": "#83f5c6",
+                    "secondary-fixed": "#86f8c9",
+                    "on-tertiary-fixed": "#001e2b",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#44474e",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "container-padding": "16px",
+                    "base": "8px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "DM Sans"
+                    ],
+                    "label-md": [
+                            "DM Sans"
+                    ],
+                    "headline-md": [
+                            "DM Sans"
+                    ],
+                    "body-md": [
+                            "DM Sans"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(circle at 50% 0%, rgba(213, 227, 255, 0.3) 0%, transparent 70%), 
+                              linear-gradient(180deg, #f5faff 0%, #eef4fa 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 13, 34, 0.05);
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-input:focus-within {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 2px rgba(10, 35, 66, 0.1);
+        }
+        
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        
+        /* Staggered animation classes */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-item {
+            opacity: 0;
+            animation: fadeSlideUp 0.5s ease-out forwards;
+        }
+        
+        .animate-item:nth-child(1) { animation-delay: 0.1s; }
+        .animate-item:nth-child(2) { animation-delay: 0.2s; }
+        .animate-item:nth-child(3) { animation-delay: 0.3s; }
+        .animate-item:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface font-body-md bg-background antialiased selection:bg-primary selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl shadow-none flex justify-between items-center px-margin-mobile h-16 border-b border-white/25">
+<button class="text-primary dark:text-primary-fixed active:scale-95 transition-transform hover:bg-white/10 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">
+            Cloud Dental Express
+        </h1>
+<button class="text-primary dark:text-primary-fixed active:scale-95 transition-transform hover:bg-white/10 p-1 rounded-full flex items-center justify-center">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-white/50">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional dental technician or clinician in a bright, modern, high-tech lab setting. The lighting is cool, clinical, and reassuring, with soft white and subtle blue tones reflecting the high-end glassmorphism UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr2uMKKcr2fsgNea81nEVEx-gEEzaIi_fTj3_6W_-x5dWKfx9INTY7EraId_d22uka389sa2xyRIGVuvWmaUGxktmcYaTzTuA1a0tb0EaYZN9cQ7ukAnnjYmVT4oz6z77vKk0uJcz0NdTomx7yZYghls11yv-MdPwJZtyBHmyKoEXQ1DSQJP62gD_c6GayLzT8hb0rN2P7K6w4iRVQ2n7VJ8ajgXtDU5JmG6LD0V5tWm-jZqY-CLnNwK2x_JRXQjCR9vfdAXhGdfth"/>
+</div>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="pt-24 pb-32 px-margin-mobile max-w-4xl mx-auto min-h-screen flex flex-col gap-6">
+<!-- Search Bar -->
+<div class="glass-input rounded-xl p-3 flex items-center gap-3 sticky top-20 z-40">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none outline-none w-full text-on-surface font-body-md placeholder:text-outline p-0 focus:ring-0" placeholder="Search products, materials..." type="text"/>
+<button class="bg-primary/10 hover:bg-primary/20 text-primary rounded-lg p-2 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">tune</span>
+</button>
+</div>
+<!-- Section Header -->
+<div class="flex justify-between items-end mt-2 px-2">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Catalog</h2>
+<p class="font-body-md text-on-surface-variant text-sm mt-1">42 Active Products</p>
+</div>
+<div class="flex gap-2">
+<span class="bg-surface-variant/50 text-on-surface-variant px-3 py-1 rounded-full text-xs font-label-md flex items-center gap-1 backdrop-blur-md border border-white/20">
+<span class="material-symbols-outlined text-[14px]">grid_view</span> Grid
+                </span>
+</div>
+</div>
+<!-- Product Grid (Bento/Card Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-card-gap">
+<!-- Card 1 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 animate-item group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center border border-white/40 shadow-sm shrink-0">
+<span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary leading-tight">Zirconia Crown</h3>
+<p class="text-xs text-on-surface-variant mt-1 font-label-md">High Translucency</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-secondary-container/30 text-secondary-container-on font-label-md text-xs px-2 py-1 rounded-full border border-secondary/20">In Stock</span>
+</div>
+</div>
+<div class="flex-grow">
+<p class="text-sm text-on-surface-variant line-clamp-2">Premium milled zirconia restoration with high flexural strength and natural aesthetics. Ideal for posterior load-bearing zones.</p>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-white/20 mt-auto">
+<div class="font-headline-md text-primary">$120.00 <span class="text-xs font-body-md text-outline font-normal">/ unit</span></div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center text-outline hover:text-primary transition-colors border border-white/40 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container/30 hover:bg-error-container/60 flex items-center justify-center text-error transition-colors border border-error/10 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 animate-item group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center border border-white/40 shadow-sm shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary leading-tight">Clear Aligner</h3>
+<p class="text-xs text-on-surface-variant mt-1 font-label-md">Orthodontic</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-secondary-container/30 text-secondary-container-on font-label-md text-xs px-2 py-1 rounded-full border border-secondary/20">In Stock</span>
+</div>
+</div>
+<div class="flex-grow">
+<p class="text-sm text-on-surface-variant line-clamp-2">Custom thermoformed aligner trays. Designed for minor to moderate anterior alignment corrections over 6-12 months.</p>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-white/20 mt-auto">
+<div class="font-headline-md text-primary">$45.00 <span class="text-xs font-body-md text-outline font-normal">/ tray</span></div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center text-outline hover:text-primary transition-colors border border-white/40 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container/30 hover:bg-error-container/60 flex items-center justify-center text-error transition-colors border border-error/10 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 animate-item group relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center border border-white/40 shadow-sm shrink-0">
+<span class="material-symbols-outlined text-outline text-2xl">surgical</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary leading-tight">Implant Abutment</h3>
+<p class="text-xs text-on-surface-variant mt-1 font-label-md">Titanium Custom</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-surface-variant text-on-surface-variant font-label-md text-xs px-2 py-1 rounded-full border border-white/40">Low Stock</span>
+</div>
+</div>
+<div class="flex-grow">
+<p class="text-sm text-on-surface-variant line-clamp-2">CAD/CAM milled custom titanium abutment designed for optimal emergence profile and soft tissue management.</p>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-white/20 mt-auto">
+<div class="font-headline-md text-primary">$185.00 <span class="text-xs font-body-md text-outline font-normal">/ unit</span></div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100 md:touch-none">
+<button class="w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center text-outline hover:text-primary transition-colors border border-white/40 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container/30 hover:bg-error-container/60 flex items-center justify-center text-error transition-colors border border-error/10 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 animate-item group relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center border border-white/40 shadow-sm shrink-0">
+<span class="material-symbols-outlined text-outline text-2xl">dentistry</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[18px] text-primary leading-tight">PFM Crown</h3>
+<p class="text-xs text-on-surface-variant mt-1 font-label-md">Non-Precious</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-secondary-container/30 text-secondary-container-on font-label-md text-xs px-2 py-1 rounded-full border border-secondary/20">In Stock</span>
+</div>
+</div>
+<div class="flex-grow">
+<p class="text-sm text-on-surface-variant line-clamp-2">Porcelain fused to metal crown utilizing high-noble or base metal alloys. Traditional reliability.</p>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-white/20 mt-auto">
+<div class="font-headline-md text-primary">$95.00 <span class="text-xs font-body-md text-outline font-normal">/ unit</span></div>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100 md:touch-none">
+<button class="w-8 h-8 rounded-full bg-white/50 hover:bg-white flex items-center justify-center text-outline hover:text-primary transition-colors border border-white/40 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container/30 hover:bg-error-container/60 flex items-center justify-center text-error transition-colors border border-error/10 shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-24 right-margin-mobile md:bottom-8 md:right-8 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-[0_8px_30px_rgba(0,13,34,0.3)] flex items-center justify-center active:scale-95 transition-transform z-40 border border-white/20 hover:bg-primary-container">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- BottomNavBar (Hidden on md, visible on mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 rounded-t-xl flex justify-around items-center h-20 pb-safe px-base shadow-none">
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1">assignment</span>
+<span class="font-label-md text-[11px]">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold hover:bg-white/5 active:scale-[0.96] transition-all duration-200 p-2 rounded-lg flex-1">
+<div class="bg-primary/10 px-4 py-1 rounded-full mb-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<span class="font-label-md text-[11px]">Products</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1">groups</span>
+<span class="font-label-md text-[11px]">Team</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 p-2 rounded-lg flex-1">
+<span class="material-symbols-outlined mb-1">account_circle</span>
+<span class="font-label-md text-[11px]">Profile</span>
+</button>
+</nav>
+<script>
+        // Simple script to handle hover states on mobile for the utility buttons inside cards
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body></html>

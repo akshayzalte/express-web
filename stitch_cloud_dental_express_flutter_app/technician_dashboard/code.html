@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - Lab Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#768baf",
+                        "secondary": "#006c4e",
+                        "tertiary-container": "#002635",
+                        "outline": "#74777e",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2b3136",
+                        "secondary-fixed-dim": "#68dbae",
+                        "tertiary": "#000f17",
+                        "tertiary-fixed": "#c2e8ff",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b2c7ef",
+                        "primary-fixed-dim": "#b2c7ef",
+                        "surface": "#f5faff",
+                        "on-secondary-fixed": "#002115",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary-fixed-variant": "#324768",
+                        "background": "#f5faff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#021c3a",
+                        "on-surface": "#161c21",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-container-low": "#eef4fa",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dde3e9",
+                        "on-tertiary-container": "#0095c4",
+                        "tertiary-fixed-dim": "#75d1ff",
+                        "on-background": "#161c21",
+                        "on-secondary-fixed-variant": "#00513a",
+                        "on-secondary-container": "#007151",
+                        "surface-tint": "#4a5f81",
+                        "surface-container": "#e9eff5",
+                        "surface-bright": "#f5faff",
+                        "inverse-on-surface": "#ebf1f7",
+                        "surface-container-high": "#e3e9ef",
+                        "surface-dim": "#d5dbe1",
+                        "surface-container-highest": "#dde3e9",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#0a2342",
+                        "primary": "#000d22",
+                        "secondary-container": "#83f5c6",
+                        "secondary-fixed": "#86f8c9",
+                        "on-tertiary-fixed": "#001e2b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "container-padding": "16px",
+                        "base": "8px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "body-md": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .glass-button {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .bg-mesh {
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(210,100%,94%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,96%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(210,100%,94%,1) 0px, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md bg-mesh min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-b border-white/25 shadow-none flex justify-between items-center px-margin-mobile h-16">
+<button class="text-primary dark:text-primary-fixed hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Cloud Dental Express</h1>
+<button class="text-primary dark:text-primary-fixed hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="user_profile_avatar">account_circle</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-24 px-margin-mobile max-w-4xl mx-auto space-y-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-lg text-headline-lg text-primary">Assigned Orders</h2>
+<div class="flex gap-2">
+<button class="glass-button text-primary px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-2 active:scale-96 transition-transform">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                </button>
+</div>
+</div>
+<!-- Order List Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-card-gap">
+<!-- Card 1: Lab Received -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:bg-white/80 transition-colors duration-300">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Order #1042</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Smith, John</h3>
+</div>
+<!-- Status Badge: Blue (Lab Received) -->
+<div class="bg-blue-100/50 border border-blue-200/50 text-blue-800 px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+<div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+<span class="font-label-md text-[12px] font-semibold">Lab Received</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-2">
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Product Type</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">dentistry</span>
+                            Zirconia Crown
+                        </p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Due Date</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">calendar_today</span>
+                            Oct 24, 2023
+                        </p>
+</div>
+</div>
+<div class="mt-auto pt-2 border-t border-white/30 flex gap-2">
+<button class="w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md active:scale-96 transition-transform shadow-md">
+                        Start Work
+                    </button>
+</div>
+</div>
+<!-- Card 2: In Progress -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:bg-white/80 transition-colors duration-300">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Order #1038</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Doe, Jane</h3>
+</div>
+<!-- Status Badge: Purple (In Progress) -->
+<div class="bg-purple-100/50 border border-purple-200/50 text-purple-800 px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+<div class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></div>
+<span class="font-label-md text-[12px] font-semibold">In Progress</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-2">
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Product Type</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">dentistry</span>
+                            Implant Bridge
+                        </p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Due Date</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">calendar_today</span>
+                            Oct 22, 2023
+                        </p>
+</div>
+</div>
+<div class="mt-auto pt-2 border-t border-white/30 flex gap-2">
+<button class="flex-1 glass-button text-primary rounded-lg py-2.5 font-label-md text-label-md active:scale-96 transition-transform">
+                        View Chart
+                    </button>
+<button class="flex-1 bg-surface-tint text-white rounded-lg py-2.5 font-label-md text-label-md active:scale-96 transition-transform shadow-md">
+                        Update Status
+                    </button>
+</div>
+</div>
+<!-- Card 3: Lab Received -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 relative overflow-hidden group hover:bg-white/80 transition-colors duration-300">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-xs font-bold text-on-surface-variant tracking-wider uppercase">Order #1045</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Williams, R.</h3>
+</div>
+<!-- Status Badge: Blue (Lab Received) -->
+<div class="bg-blue-100/50 border border-blue-200/50 text-blue-800 px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+<div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+<span class="font-label-md text-[12px] font-semibold">Lab Received</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-2">
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Product Type</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">medical_services</span>
+                            Night Guard
+                        </p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1">Due Date</p>
+<p class="font-body-md text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary/60">calendar_today</span>
+                            Oct 26, 2023
+                        </p>
+</div>
+</div>
+<div class="mt-auto pt-2 border-t border-white/30 flex gap-2">
+<button class="w-full bg-primary text-white rounded-lg py-2.5 font-label-md text-label-md active:scale-96 transition-transform shadow-md">
+                        Start Work
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 shadow-none flex justify-around items-center h-20 pb-safe px-base md:hidden">
+<button class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="assignment" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-md text-label-md">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Team</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md">Profile</span>
+</button>
+</nav>
+</body></html>

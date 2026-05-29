@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - Doctor Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#768baf",
+                        "secondary": "#006c4e",
+                        "tertiary-container": "#002635",
+                        "outline": "#74777e",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2b3136",
+                        "secondary-fixed-dim": "#68dbae",
+                        "tertiary": "#000f17",
+                        "tertiary-fixed": "#c2e8ff",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b2c7ef",
+                        "primary-fixed-dim": "#b2c7ef",
+                        "surface": "#f5faff",
+                        "on-secondary-fixed": "#002115",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary-fixed-variant": "#324768",
+                        "background": "#f5faff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#021c3a",
+                        "on-surface": "#161c21",
+                        "on-tertiary-fixed-variant": "#004d67",
+                        "surface-container-low": "#eef4fa",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dde3e9",
+                        "on-tertiary-container": "#0095c4",
+                        "tertiary-fixed-dim": "#75d1ff",
+                        "on-background": "#161c21",
+                        "on-secondary-fixed-variant": "#00513a",
+                        "on-secondary-container": "#007151",
+                        "surface-tint": "#4a5f81",
+                        "surface-container": "#e9eff5",
+                        "surface-bright": "#f5faff",
+                        "inverse-on-surface": "#ebf1f7",
+                        "surface-container-high": "#e3e9ef",
+                        "surface-dim": "#d5dbe1",
+                        "surface-container-highest": "#dde3e9",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#0a2342",
+                        "primary": "#000d22",
+                        "secondary-container": "#83f5c6",
+                        "secondary-fixed": "#86f8c9",
+                        "on-tertiary-fixed": "#001e2b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "container-padding": "16px",
+                        "base": "8px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "headline-md": ["DM Sans"],
+                        "body-md": ["DM Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(circle at 50% -20%, rgba(10, 35, 66, 0.05), transparent 60%), radial-gradient(circle at -20% 80%, rgba(131, 245, 198, 0.05), transparent 50%);
+            background-color: theme('colors.background');
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .dark .glass-panel {
+            background: rgba(0, 13, 34, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stagger-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background font-body-md pb-24 pt-20">
+<!-- TopAppBar -->
+<header class="bg-white/10 dark:bg-black/10 backdrop-blur-3xl fixed top-0 w-full z-50 border-b border-white/25 shadow-none hidden md:flex">
+<div class="flex justify-between items-center px-margin-mobile h-16 w-full max-w-7xl mx-auto">
+<button class="hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                Cloud Dental Express
+            </div>
+<div class="flex items-center gap-4">
+<nav class="flex gap-6 mr-4">
+<a class="text-primary font-label-md text-label-md hover:bg-white/10 active:scale-95 transition-transform px-3 py-2 rounded-lg" href="#">Orders</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-white/10 active:scale-95 transition-transform px-3 py-2 rounded-lg" href="#">Products</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-white/10 active:scale-95 transition-transform px-3 py-2 rounded-lg" href="#">Team</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-white/10 active:scale-95 transition-transform px-3 py-2 rounded-lg" href="#">Profile</a>
+</nav>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Doctor Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional male doctor wearing a pristine white coat and subtle blue scrubs underneath. The lighting is bright, clinical, and clean, reflecting a modern, high-tech dental laboratory environment. The background is slightly blurred frosted glass. The overall aesthetic is professional, reliable, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsC2snuohD00_UQjeY7KFzHRrADDJp0WCkT5mFDUqZcG9e1-ifwvl1ufdOMrd0gqDAHQ-1e8rLeBq9kOx8_8zbgsYkCa-zDmrziQLYKP-t4YgAptCwU1k8mFsHHFV8B0vNur7VI8L8v7L8ykpa6so-A59n6oLAhYUMh5TJCBjwbk1qONi1dxx8yLpl3cCJbrUYTKXdT7Z5UgWkWE8g6ka-a2aBFRMHduIomjBPWQInnyK4TVGKTIFYow-w-baUnM1b3NFaw1w9zF5m"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Mobile Header -->
+<header class="bg-white/10 dark:bg-black/10 backdrop-blur-3xl fixed top-0 w-full z-50 border-b border-white/25 shadow-none md:hidden flex justify-between items-center px-margin-mobile h-16">
+<button class="hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            Cloud Dental Express
+        </div>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Doctor Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional male doctor wearing a pristine white coat and subtle blue scrubs underneath. The lighting is bright, clinical, and clean, reflecting a modern, high-tech dental laboratory environment. The background is slightly blurred frosted glass. The overall aesthetic is professional, reliable, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXTsdQ9rxXIR53E5FHjR7Nq0G8JRYwpimfOrwhzc0OQD7ANSgIzzu220BIo6T1NWoZbuwytqRxHXsEfPWN2UefBL5PdSg5buqDYgw20h6W3V4oS6dA9K5NXSYpmkyYnUUUPhTrhwSxLkcoRnJJbR8q3g4xi80xsRRY54_1SPEviCFtBLTeFr_u6uH5Wuu-s_Xy47HwmW4TRPdEHcmOb3gilhqopFxCTV2IyO2nWeJPDNXWF08hSAfu0S0hPEIO0ZGZtIIMjqrPwAqe"/>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-margin-mobile pt-6 pb-24">
+<!-- Dashboard Header / Hero -->
+<section class="mb-10 stagger-enter">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Good morning, Dr. Smith</h1>
+<p class="text-on-surface-variant font-body-md">Here is the status of your lab cases today.</p>
+</section>
+<!-- Bento Grid Overview -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-card-gap mb-12">
+<!-- Pending Orders Card -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between col-span-1 md:col-span-2 stagger-enter delay-100 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50"></div>
+<div class="relative z-10 flex justify-between items-start mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="pending_actions" data-weight="fill" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary">Pending Cases</h2>
+</div>
+<button class="text-primary hover:bg-primary/5 p-2 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="relative z-10">
+<span class="text-5xl font-bold text-primary tracking-tight">12</span>
+<span class="text-on-surface-variant font-body-md ml-2">Requires review</span>
+</div>
+</div>
+<!-- Urgent Actions Card -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between col-span-1 stagger-enter delay-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-error-container/20 to-transparent opacity-50"></div>
+<div class="relative z-10 flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Action Needed</h3>
+</div>
+<div class="relative z-10">
+<p class="font-headline-md text-headline-md text-on-surface mb-1">3</p>
+<p class="text-on-surface-variant text-sm">Impressions rejected</p>
+</div>
+</div>
+</section>
+<!-- Recent Orders List -->
+<section>
+<div class="flex justify-between items-end mb-6 stagger-enter delay-200">
+<h2 class="font-headline-md text-headline-md text-primary">Recent Orders</h2>
+<button class="font-label-md text-label-md text-primary hover:underline px-2 py-1 rounded active:scale-95 transition-transform">View All</button>
+</div>
+<div class="flex flex-col gap-card-gap">
+<!-- Order Card 1 -->
+<div class="glass-panel rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 stagger-enter delay-300 hover:bg-white/40 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="dentistry" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface font-bold text-base mb-1">Patient: Doe, John</h3>
+<p class="text-on-surface-variant text-sm font-body-md">Zirconia Crown - Tooth #14</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:w-1/2">
+<div class="text-left sm:text-right">
+<p class="text-on-surface-variant text-xs mb-1 uppercase tracking-wider">Due Date</p>
+<p class="font-body-md text-on-surface font-medium">Oct 24, 2023</p>
+</div>
+<!-- Status Badge - Purple -->
+<div class="px-3 py-1 rounded-full bg-purple-100/50 border border-purple-200/50 text-purple-800 font-label-md text-xs whitespace-nowrap flex items-center gap-1.5 backdrop-blur-md">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+                            In Progress
+                        </div>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="glass-panel rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 stagger-enter delay-400 hover:bg-white/40 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="dentistry" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface font-bold text-base mb-1">Patient: Smith, Jane</h3>
+<p class="text-on-surface-variant text-sm font-body-md">Clear Aligner Set - Upper</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:w-1/2">
+<div class="text-left sm:text-right">
+<p class="text-on-surface-variant text-xs mb-1 uppercase tracking-wider">Due Date</p>
+<p class="font-body-md text-on-surface font-medium">Oct 26, 2023</p>
+</div>
+<!-- Status Badge - Blue -->
+<div class="px-3 py-1 rounded-full bg-blue-100/50 border border-blue-200/50 text-blue-800 font-label-md text-xs whitespace-nowrap flex items-center gap-1.5 backdrop-blur-md">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                            Designing
+                        </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/10 dark:bg-black/10 backdrop-blur-3xl fixed bottom-0 w-full z-50 rounded-t-xl border-t border-white/25 shadow-none flex justify-around items-center h-20 pb-safe px-base md:hidden">
+<button class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1" data-icon="assignment" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-md text-[10px] leading-none">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-[10px] leading-none">Products</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1" data-icon="groups">groups</span>
+<span class="font-label-md text-[10px] leading-none">Team</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-[10px] leading-none">Profile</span>
+</button>
+</nav>
+<script>
+        // Simple script to handle ripple or subtle interaction effects if needed later.
+        // Currently handled primarily by Tailwind classes (active:scale, transition).
+    </script>
+</body></html>

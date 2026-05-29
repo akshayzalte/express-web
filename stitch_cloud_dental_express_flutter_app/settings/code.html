@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#68dbae",
+                    "on-surface": "#161c21",
+                    "secondary-fixed": "#86f8c9",
+                    "surface-container-low": "#eef4fa",
+                    "surface-variant": "#dde3e9",
+                    "tertiary-fixed": "#c2e8ff",
+                    "on-secondary-fixed": "#002115",
+                    "secondary-container": "#83f5c6",
+                    "on-secondary-container": "#007151",
+                    "tertiary-fixed-dim": "#75d1ff",
+                    "inverse-surface": "#2b3136",
+                    "inverse-on-surface": "#ebf1f7",
+                    "surface-bright": "#f5faff",
+                    "on-tertiary-container": "#0095c4",
+                    "on-secondary-fixed-variant": "#00513a",
+                    "on-primary-fixed-variant": "#324768",
+                    "on-primary-fixed": "#021c3a",
+                    "on-surface-variant": "#44474e",
+                    "primary-fixed-dim": "#b2c7ef",
+                    "outline-variant": "#c4c6cf",
+                    "secondary": "#006c4e",
+                    "on-tertiary-fixed": "#001e2b",
+                    "surface-tint": "#4a5f81",
+                    "primary-fixed": "#d5e3ff",
+                    "surface": "#f5faff",
+                    "primary": "#000d22",
+                    "outline": "#74777e",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c21",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b2c7ef",
+                    "surface-container-highest": "#dde3e9",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#002635",
+                    "primary-container": "#0a2342",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#004d67",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e3e9ef",
+                    "surface-dim": "#d5dbe1",
+                    "background": "#f5faff",
+                    "surface-container": "#e9eff5",
+                    "tertiary": "#000f17",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#768baf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "card-gap": "12px",
+                    "margin-mobile": "20px",
+                    "base": "8px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "label-md": ["DM Sans"],
+                    "body-md": ["DM Sans"],
+                    "headline-lg": ["DM Sans"],
+                    "headline-md": ["DM Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                    "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background: linear-gradient(135deg, #f5faff 0%, #eef4fa 100%);
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 13, 34, 0.05);
+        }
+        .glass-button {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glass-button:active {
+            transform: scale(0.96);
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-b border-white/25 shadow-none">
+<div class="flex justify-between items-center px-margin-mobile h-16 max-w-5xl mx-auto w-full">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed hover:bg-white/10 p-2 rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Cloud Dental Express</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/50 glass-panel flex-shrink-0 cursor-pointer active:scale-95 transition-transform">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male doctor wearing scrubs in a well lit clinical environment, soft clinical lighting, clear medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJz19VxeVkDEbkjbjJI4bSUZhZqWAj0tSkNBgasWeeG3oXpsUn0b6bV9zuN4HNKhEhy4ufsbvS9UOWs5f6QPw0BuLCgZyqAM0Yk1-r3_h0QA4lCFAV0Ey5sWt6xcTJlXhnEVCB3ljlBtRUssLu8vEyDwv2Zc1rkFdKgY8Mq6x91V3KYoqUADcJyWLtfwXFps4Yqr5X8TrgsxCJpPyveP2pu7XzzyRVM6NpgQAlanFfT2A6IlbV5S7vTtVzNLZAJOe48DtS7JCzMgyL"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 px-margin-mobile max-w-5xl mx-auto w-full flex flex-col gap-card-gap md:grid md:grid-cols-12 md:gap-gutter md:items-start">
+<!-- User Summary Card (Mobile: Full width, Desktop: Sidebar col-span-4) -->
+<section class="glass-panel rounded-xl p-6 flex flex-col items-center text-center md:col-span-4 md:sticky md:top-24">
+<div class="w-24 h-24 rounded-full overflow-hidden border-2 border-white mb-4 shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male doctor wearing scrubs in a well lit clinical environment, soft clinical lighting, clear medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRIACnrRDVb9OgXEtV153pCNCcJh60-mrxzgYDtFstw0wL1_c-pkC_JTZZt-EFLB-1RC7pyyLQh9Vu5fcPBjOXufOcmWbOc8cpNny4bHqBOEQgGfB7vpXwqba1bTlCH0gWzqCtI8dVLGVhAxCny2IHIFGzKG3RYtY6E7PlpWgc9ZRW1ujQ1iQo3yOafxZ3LKpRyr_W0BbNEYVkn9acmF4Kr_AUrc73DyiGTyAjumw80HkHgfKK7pc61uAdgrAkbmCbsHrOYjPyzClS"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-1">Dr. Alex Chen</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Lead Prosthodontist</p>
+<div class="w-full bg-surface-container-low rounded-lg p-3 flex justify-between items-center mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Lab ID</span>
+<span class="font-label-md text-label-md text-primary font-bold">CDE-8492</span>
+</div>
+<div class="w-full bg-surface-container-low rounded-lg p-3 flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface-variant">Status</span>
+<span class="px-2 py-1 rounded-full bg-secondary-fixed-dim/20 text-secondary font-label-md text-label-md text-xs">Active</span>
+</div>
+</section>
+<!-- Settings Menu List (Mobile: Full width, Desktop: Main content col-span-8) -->
+<section class="md:col-span-8 flex flex-col gap-card-gap">
+<h3 class="font-headline-md text-headline-md text-primary px-2 mb-2 hidden md:block">Settings</h3>
+<!-- Menu Group 1 -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col">
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/40 transition-colors border-b border-white/20 active:bg-white/60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="text-left">
+<div class="font-label-md text-label-md text-primary">Profile Settings</div>
+<div class="font-body-md text-body-md text-xs text-on-surface-variant mt-0.5">Update personal info and credentials</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/40 transition-colors border-b border-white/20 active:bg-bg-white/60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div class="text-left">
+<div class="font-label-md text-label-md text-primary">Security</div>
+<div class="font-body-md text-body-md text-xs text-on-surface-variant mt-0.5">Password, 2FA, and sessions</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/40 transition-colors active:bg-white/60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<div class="text-left">
+<div class="font-label-md text-label-md text-primary">Notifications Preferences</div>
+<div class="font-body-md text-body-md text-xs text-on-surface-variant mt-0.5">Alerts for orders and updates</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+<!-- Menu Group 2 -->
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col">
+<div class="w-full flex items-center justify-between p-4 border-b border-white/20">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">palette</span>
+</div>
+<div class="text-left">
+<div class="font-label-md text-label-md text-primary">Appearance</div>
+<div class="font-body-md text-body-md text-xs text-on-surface-variant mt-0.5">Toggle Light/Dark mode</div>
+</div>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/40 transition-colors active:bg-white/60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">help</span>
+</div>
+<div class="text-left">
+<div class="font-label-md text-label-md text-primary">Help &amp; Support</div>
+<div class="font-body-md text-body-md text-xs text-on-surface-variant mt-0.5">Contact tech support</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+<!-- Logout Button -->
+<button class="glass-button rounded-xl p-4 flex items-center justify-center gap-2 text-error mt-4 transition-transform duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar (Visible only on mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 shadow-none">
+<div class="flex justify-around items-center h-20 pb-safe px-base">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 w-full h-full rounded-lg active:scale-[0.96] transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-md text-label-md text-[10px]">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 w-full h-full rounded-lg active:scale-[0.96] transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+<span class="font-label-md text-label-md text-[10px]">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 w-full h-full rounded-lg active:scale-[0.96] transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">groups</span>
+<span class="font-label-md text-label-md text-[10px]">Team</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold hover:bg-white/5 w-full h-full rounded-lg active:scale-[0.96] transition-all duration-200 relative" href="#">
+<!-- Active indicator pill -->
+<div class="absolute top-2 w-12 h-8 bg-primary/10 rounded-full -z-10"></div>
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-label-md text-label-md text-[10px]">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

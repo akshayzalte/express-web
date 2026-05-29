@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications - Cloud Dental Express</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (Provided) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#68dbae",
+                    "on-surface": "#161c21",
+                    "secondary-fixed": "#86f8c9",
+                    "surface-container-low": "#eef4fa",
+                    "surface-variant": "#dde3e9",
+                    "tertiary-fixed": "#c2e8ff",
+                    "on-secondary-fixed": "#002115",
+                    "secondary-container": "#83f5c6",
+                    "on-secondary-container": "#007151",
+                    "tertiary-fixed-dim": "#75d1ff",
+                    "inverse-surface": "#2b3136",
+                    "inverse-on-surface": "#ebf1f7",
+                    "surface-bright": "#f5faff",
+                    "on-tertiary-container": "#0095c4",
+                    "on-secondary-fixed-variant": "#00513a",
+                    "on-primary-fixed-variant": "#324768",
+                    "on-primary-fixed": "#021c3a",
+                    "on-surface-variant": "#44474e",
+                    "primary-fixed-dim": "#b2c7ef",
+                    "outline-variant": "#c4c6cf",
+                    "secondary": "#006c4e",
+                    "on-tertiary-fixed": "#001e2b",
+                    "surface-tint": "#4a5f81",
+                    "primary-fixed": "#d5e3ff",
+                    "surface": "#f5faff",
+                    "primary": "#000d22",
+                    "outline": "#74777e",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c21",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b2c7ef",
+                    "surface-container-highest": "#dde3e9",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#002635",
+                    "primary-container": "#0a2342",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#004d67",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e3e9ef",
+                    "surface-dim": "#d5dbe1",
+                    "background": "#f5faff",
+                    "surface-container": "#e9eff5",
+                    "tertiary": "#000f17",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#768baf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "card-gap": "12px",
+                    "margin-mobile": "20px",
+                    "base": "8px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "label-md": [
+                            "DM Sans"
+                    ],
+                    "body-md": [
+                            "DM Sans"
+                    ],
+                    "headline-lg": [
+                            "DM Sans"
+                    ],
+                    "headline-md": [
+                            "DM Sans"
+                    ]
+            },
+            "fontSize": {
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Custom utilities not fully supported by standard tailwind classes cleanly */
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Subtle atmospheric background blobs for glassmorphism context */
+        .bg-blob-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            background-color: var(--color-primary-fixed);
+            opacity: 0.4;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .bg-blob-2 {
+            position: absolute;
+            bottom: 10%;
+            right: -10%;
+            width: 70vw;
+            height: 70vw;
+            border-radius: 50%;
+            background-color: var(--color-secondary-container);
+            opacity: 0.3;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Simple animation for list items */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-list-item {
+            animation: slideUpFade 0.4s ease-out forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen relative overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed pb-24">
+<!-- Atmospheric Background -->
+<div class="bg-blob-1"></div>
+<div class="bg-blob-2"></div>
+<!-- TopAppBar (Shared Component Execution) -->
+<nav class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-b border-white/25 shadow-none flex justify-between items-center px-margin-mobile h-16">
+<button class="active:scale-95 transition-transform text-on-surface-variant hover:bg-white/10 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">Cloud Dental Express</h1>
+<button class="active:scale-95 transition-transform hover:bg-white/10 rounded-full w-8 h-8 flex items-center justify-center overflow-hidden border border-white/40 shadow-sm relative">
+<span class="material-symbols-outlined text-on-surface-variant filled absolute z-0 text-3xl">account_circle</span>
+<img alt="User Avatar" class="w-full h-full object-cover z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAthBP_fBfK9tU0Y0eN7wgQoUbC2GnxHzF1lApFHv3qkz8oKz3P5LdH3VuIs7vQQ76E7wD0PuuTXZOVOYuH07mRXgi4Z7PXkvCIhxzQjKpvnI0oV0xj_ipO3eEMjapkE_IPXyCCiKFRz_d1mTgHoktoW1RSbo6A3AxJ1n8s-vRRs129NaI7ZYW-_Ls-iia28fSliuOD_lWMqI303tywQfQrwnvJmqw9fhfQx5-7ZnvC5pjfBAx5sHp3Gz0OT6IjUE82bjDfRL1DI7pG"/>
+</button>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative z-10 pt-24 px-margin-mobile max-w-3xl mx-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">You have 2 unread alerts.</p>
+</div>
+<button class="font-label-md text-label-md text-primary bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-full transition-colors active:scale-95">
+                Mark all as read
+            </button>
+</div>
+<!-- Notification List -->
+<div class="flex flex-col gap-card-gap">
+<!-- Category: New -->
+<h3 class="font-label-md text-label-md text-on-surface-variant mt-2 mb-1 px-1">New</h3>
+<!-- Notification Item: Unread Order Update -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-start relative overflow-hidden animate-list-item delay-1 group cursor-pointer active:scale-[0.98] transition-transform">
+<!-- Unread Indicator -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<!-- Icon Container -->
+<div class="w-10 h-10 shrink-0 rounded-full bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20 shadow-[inset_0_1px_3px_rgba(255,255,255,0.5)]">
+<span class="material-symbols-outlined">assignment</span>
+</div>
+<!-- Content -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface font-semibold truncate pr-2">Order #8492 Updated</h4>
+<span class="font-body-md text-body-md text-[12px] text-primary font-medium whitespace-nowrap">2m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2 leading-snug">
+                        The scan for patient <span class="font-medium text-on-surface">J. Doe</span> has passed quality check and is now in production.
+                    </p>
+</div>
+</div>
+<!-- Notification Item: Unread Delivery Status -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-start relative overflow-hidden animate-list-item delay-2 group cursor-pointer active:scale-[0.98] transition-transform">
+<!-- Unread Indicator -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<!-- Icon Container -->
+<div class="w-10 h-10 shrink-0 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary border border-tertiary/20 shadow-[inset_0_1px_3px_rgba(255,255,255,0.5)]">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<!-- Content -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface font-semibold truncate pr-2">Delivery Arriving Soon</h4>
+<span class="font-body-md text-body-md text-[12px] text-primary font-medium whitespace-nowrap">45m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2 leading-snug">
+                        Batch delivery containing 4 items is expected to arrive at your clinic by 2:00 PM today.
+                    </p>
+</div>
+</div>
+<!-- Category: Earlier -->
+<h3 class="font-label-md text-label-md text-on-surface-variant mt-6 mb-1 px-1">Earlier</h3>
+<!-- Notification Item: Read Bill -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-start opacity-80 animate-list-item delay-3 cursor-pointer active:scale-[0.98] transition-transform">
+<!-- Icon Container -->
+<div class="w-10 h-10 shrink-0 rounded-full bg-surface-variant/50 flex items-center justify-center text-on-surface-variant border border-white/50">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<!-- Content -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate pr-2">New Invoice Available</h4>
+<span class="font-body-md text-body-md text-[12px] text-on-surface-variant/70 whitespace-nowrap">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2 leading-snug">
+                        Invoice #INV-2023-11 for the period ending Oct 31 is now ready to view.
+                    </p>
+</div>
+</div>
+<!-- Notification Item: Read Product Alert -->
+<div class="glass-panel rounded-xl p-4 flex gap-4 items-start opacity-80 animate-list-item delay-4 cursor-pointer active:scale-[0.98] transition-transform">
+<!-- Icon Container -->
+<div class="w-10 h-10 shrink-0 rounded-full bg-surface-variant/50 flex items-center justify-center text-on-surface-variant border border-white/50">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<!-- Content -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate pr-2">Material Restock Request</h4>
+<span class="font-body-md text-body-md text-[12px] text-on-surface-variant/70 whitespace-nowrap">Oct 28</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm line-clamp-2 leading-snug">
+                        You requested a restock of Zirconia Blocks (A2). We will notify you when they are available.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component Execution) -->
+<!-- Note: Following semantic shell mandate, none are active as this is a dedicated notifications screen, but it sits at top-level accessibility -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 shadow-none flex justify-around items-center h-20 pb-safe px-base">
+<!-- Tab: Orders -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1 text-[24px]">assignment</span>
+<span class="font-label-md text-[11px] font-medium tracking-wide">Orders</span>
+</button>
+<!-- Tab: Products -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1 text-[24px]">inventory_2</span>
+<span class="font-label-md text-[11px] font-medium tracking-wide">Products</span>
+</button>
+<!-- Tab: Team -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1 text-[24px]">groups</span>
+<span class="font-label-md text-[11px] font-medium tracking-wide">Team</span>
+</button>
+<!-- Tab: Profile -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:bg-white/5 active:scale-[0.96] transition-all duration-200 w-full h-full rounded-lg">
+<span class="material-symbols-outlined mb-1 text-[24px]">account_circle</span>
+<span class="font-label-md text-[11px] font-medium tracking-wide">Profile</span>
+</button>
+</nav>
+<!-- Web Navigation (Hidden on mobile, placeholder structure for fluid layout requirements) -->
+<div class="hidden md:flex fixed top-16 right-0 h-full w-64 p-6 glass-panel flex-col gap-4 border-l border-white/25">
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Navigation</h3>
+<!-- Simplified desktop nav mimicking bottom nav intent -->
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/40 transition-colors text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/40 transition-colors text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/40 transition-colors text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Team</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/40 transition-colors text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</div>
+</body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Dental Express - New Order</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c4c6cf",
+                      "on-primary-container": "#768baf",
+                      "secondary": "#006c4e",
+                      "tertiary-container": "#002635",
+                      "outline": "#74777e",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#2b3136",
+                      "secondary-fixed-dim": "#68dbae",
+                      "tertiary": "#000f17",
+                      "tertiary-fixed": "#c2e8ff",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#b2c7ef",
+                      "primary-fixed-dim": "#b2c7ef",
+                      "surface": "#f5faff",
+                      "on-secondary-fixed": "#002115",
+                      "primary-fixed": "#d5e3ff",
+                      "on-primary-fixed-variant": "#324768",
+                      "background": "#f5faff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#021c3a",
+                      "on-surface": "#161c21",
+                      "on-tertiary-fixed-variant": "#004d67",
+                      "surface-container-low": "#eef4fa",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#dde3e9",
+                      "on-tertiary-container": "#0095c4",
+                      "tertiary-fixed-dim": "#75d1ff",
+                      "on-background": "#161c21",
+                      "on-secondary-fixed-variant": "#00513a",
+                      "on-secondary-container": "#007151",
+                      "surface-tint": "#4a5f81",
+                      "surface-container": "#e9eff5",
+                      "surface-bright": "#f5faff",
+                      "inverse-on-surface": "#ebf1f7",
+                      "surface-container-high": "#e3e9ef",
+                      "surface-dim": "#d5dbe1",
+                      "surface-container-highest": "#dde3e9",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#0a2342",
+                      "primary": "#000d22",
+                      "secondary-container": "#83f5c6",
+                      "secondary-fixed": "#86f8c9",
+                      "on-tertiary-fixed": "#001e2b",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#44474e",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "gutter": "16px",
+                      "container-padding": "16px",
+                      "base": "8px",
+                      "card-gap": "12px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["DM Sans"],
+                      "label-md": ["DM Sans"],
+                      "headline-md": ["DM Sans"],
+                      "body-md": ["DM Sans"]
+              },
+              "fontSize": {
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(circle at 50% -20%, #eef4fa, #f5faff);
+            background-attachment: fixed;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        }
+        .glass-input {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.5);
+            outline: none;
+        }
+        .tooth-checkbox:checked + label {
+            background-color: #000d22;
+            color: #ffffff;
+            border-color: #000d22;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24 md:pb-8 pt-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-b border-white/25 shadow-none flex justify-between items-center px-margin-mobile h-16">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            Cloud Dental Express
+        </div>
+<button aria-label="Profile" class="text-primary dark:text-primary-fixed hover:bg-white/10 active:scale-95 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="account_circle" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-margin-mobile max-w-4xl mx-auto space-y-6">
+<div class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">New Order Form</h1>
+<p class="text-on-surface-variant font-body-md">Create a new lab prescription.</p>
+</div>
+<form class="space-y-card-gap">
+<!-- Patient Info Section -->
+<section class="glass-panel rounded-xl p-container-padding flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">person</span>
+                    Patient Details
+                </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="patientName">Patient Full Name</label>
+<input class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full" id="patientName" placeholder="e.g., Jane Doe" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="dueDate">Required By Date</label>
+<input class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full" id="dueDate" required="" type="date"/>
+</div>
+</div>
+</section>
+<!-- Tooth Selection Grid -->
+<section class="glass-panel rounded-xl p-container-padding flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">dentistry</span>
+                    Tooth Selection
+                </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Select the teeth for this restoration.</p>
+<div class="overflow-x-auto hide-scrollbar pb-2">
+<div class="min-w-[600px] flex flex-col gap-2 items-center">
+<!-- Upper Arch -->
+<div class="flex gap-1">
+<script>
+                                for(let i=1; i<=16; i++) {
+                                    document.write(`
+                                        <div class="relative">
+                                            <input type="checkbox" id="tooth${i}" class="tooth-checkbox sr-only">
+                                            <label for="tooth${i}" class="w-8 h-10 flex items-center justify-center border border-white/50 rounded-md cursor-pointer transition-colors bg-white/30 text-on-surface font-label-md text-label-md hover:bg-white/60">
+                                                ${i}
+                                            </label>
+                                        </div>
+                                    `);
+                                }
+                            </script>
+</div>
+<div class="w-full h-px bg-white/50 my-1"></div>
+<!-- Lower Arch -->
+<div class="flex gap-1">
+<script>
+                                for(let i=32; i>=17; i--) {
+                                    document.write(`
+                                        <div class="relative">
+                                            <input type="checkbox" id="tooth${i}" class="tooth-checkbox sr-only">
+                                            <label for="tooth${i}" class="w-8 h-10 flex items-center justify-center border border-white/50 rounded-md cursor-pointer transition-colors bg-white/30 text-on-surface font-label-md text-label-md hover:bg-white/60">
+                                                ${i}
+                                            </label>
+                                        </div>
+                                    `);
+                                }
+                            </script>
+</div>
+</div>
+</div>
+</section>
+<!-- Product & Materials -->
+<section class="glass-panel rounded-xl p-container-padding flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">inventory_2</span>
+                    Product &amp; Specifications
+                </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="productType">Product Category</label>
+<select class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full appearance-none" id="productType">
+<option>Zirconia Crown</option>
+<option>E.Max Crown</option>
+<option>PFM Crown</option>
+<option>Implant Abutment</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="shade">Shade Selection</label>
+<input class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full" id="shade" placeholder="e.g., A2, B1" type="text"/>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-4 border border-white/30 p-4 rounded-lg bg-white/10">
+<label class="flex items-center justify-between cursor-pointer">
+<span class="font-label-md text-label-md text-on-surface">Return for Coping Try-in</span>
+<div class="relative">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+<div class="w-full h-px bg-white/20"></div>
+<label class="flex items-center justify-between cursor-pointer">
+<span class="font-label-md text-label-md text-on-surface">Return for Bisque Bake</span>
+<div class="relative">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+</div>
+</div>
+</section>
+<!-- Attachments & Notes -->
+<section class="glass-panel rounded-xl p-container-padding flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">attachment</span>
+                    Attachments &amp; Notes
+                </h2>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Upload Photos / Scans</label>
+<div class="border-2 border-dashed border-white/50 rounded-xl p-8 flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 transition-colors cursor-pointer group text-center">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors mb-2">cloud_upload</span>
+<p class="font-body-md text-on-surface">Drag and drop files here or click to browse.</p>
+<p class="font-label-md text-label-md text-on-surface-variant/70 mt-1">Supports JPG, PNG, STL (Max 50MB)</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<label class="font-label-md text-label-md text-on-surface-variant" for="notes">Clinical Notes / Instructions</label>
+<textarea class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full resize-y" id="notes" placeholder="Add any specific instructions for the lab technician..." rows="4"></textarea>
+</div>
+</section>
+<!-- Finalize Section -->
+<section class="glass-panel rounded-xl p-container-padding flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="flex flex-col gap-1 flex-1 md:w-48">
+<label class="font-label-md text-label-md text-on-surface-variant sr-only" for="branch">Branch</label>
+<select class="glass-input rounded-lg px-3 py-2 font-body-md text-on-surface w-full appearance-none bg-transparent" id="branch">
+<option>Main Clinic</option>
+<option>Downtown Branch</option>
+</select>
+</div>
+<label class="flex items-center gap-2 cursor-pointer whitespace-nowrap">
+<input class="rounded text-primary focus:ring-primary bg-white/30 border-white/50 h-5 w-5" type="checkbox"/>
+<span class="font-label-md text-label-md text-on-surface">Call me regarding this case</span>
+</label>
+</div>
+<button class="w-full md:w-auto bg-primary text-white font-label-md text-label-md px-8 py-3 rounded-lg active:scale-[0.96] transition-transform flex items-center justify-center gap-2 shadow-lg" type="submit">
+<span class="material-symbols-outlined text-[20px]">send</span>
+                    Submit Order
+                </button>
+</section>
+</form>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-white/10 dark:bg-black/10 backdrop-blur-3xl border-t border-white/25 shadow-none flex justify-around items-center h-20 pb-safe px-base">
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold active:scale-[0.96] transition-all duration-200 hover:bg-white/5 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assignment" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-md text-label-md mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 active:scale-[0.96] transition-all duration-200 hover:bg-white/5 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 active:scale-[0.96] transition-all duration-200 hover:bg-white/5 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md mt-1">Team</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 active:scale-[0.96] transition-all duration-200 hover:bg-white/5 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
