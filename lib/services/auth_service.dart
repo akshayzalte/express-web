@@ -44,25 +44,24 @@ class AuthService extends GetxService {
 
   void registerDoctor({
     required String name,
+    required String email,
+    required String mobileNumber,
     required String clinicName,
     required String address,
-    required double latitude,
-    required double longitude,
-    String? password,
     String? profilePhotoUrl,
   }) {
     final newDoc = UserModel(
       id: 'doc_${DateTime.now().millisecondsSinceEpoch}',
-      email: '${name.toLowerCase().replaceAll(' ', '')}@dental.com',
+      email: email,
       name: name,
       role: 'doctor',
-      password: password ?? 'password',
+      password: null,
+      mobileNumber: mobileNumber,
       clinicName: clinicName,
       address: address,
-      latitude: latitude,
-      longitude: longitude,
       profilePhotoUrl: profilePhotoUrl,
       isApproved: false,
+      mustChangePassword: true,
     );
 
     // Save user to DB and log them in
@@ -78,6 +77,22 @@ class AuthService extends GetxService {
   void updateProfilePhoto(String url) {
     if (currentUser.value != null) {
       final updated = currentUser.value!.copyWith(profilePhotoUrl: url);
+      currentUser.value = updated;
+      
+      // Update in db users list
+      final idx = _db.users.indexWhere((u) => u.id == updated.id);
+      if (idx >= 0) {
+        _db.users[idx] = updated;
+      }
+    }
+  }
+
+  void changePassword(String newPassword) {
+    if (currentUser.value != null) {
+      final updated = currentUser.value!.copyWith(
+        password: newPassword,
+        mustChangePassword: false,
+      );
       currentUser.value = updated;
       
       // Update in db users list

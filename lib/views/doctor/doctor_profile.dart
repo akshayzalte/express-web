@@ -8,7 +8,6 @@ import '../../services/auth_service.dart';
 import '../../widgets/glass_container.dart';
 import '../../widgets/glass_button.dart';
 import '../../widgets/glass_input.dart';
-import '../../widgets/tile_map_widget.dart';
 
 class DoctorProfile extends StatefulWidget {
   const DoctorProfile({super.key});
@@ -232,65 +231,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
                     labelText: 'Clinic Address',
                     prefixIcon: Icons.location_city,
                     maxLines: 2,
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Map Pin Section
-                  Text(
-                    'Location Coordinates',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 6),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      height: 120,
-                      color: Colors.black26,
-                      child: Stack(
-                        children: [
-                           TileMapWidget(
-                             latitude: lat,
-                             longitude: lng,
-                             height: 120,
-                           ),
-                           Positioned.fill(
-                             child: InkWell(
-                               onTap: () {
-                                 setState(() {
-                                   lat = lat + 0.001;
-                                   lng = lng + 0.001;
-                                 });
-                                 Get.snackbar('Coordinates Updated', 'Custom location pin adjusted.');
-                               },
-                              child: Container(
-                                color: Colors.black12,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.location_on, color: Colors.redAccent, size: 36),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        'Lat: ${lat.toStringAsFixed(4)}, Lng: ${lng.toStringAsFixed(4)}',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [Shadow(color: Colors.black, blurRadius: 4)],
-                                        ),
-                                      ),
-                                      const Text(
-                                        'Tap to adjust pin location',
-                                        style: TextStyle(color: Colors.white70, fontSize: 10),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),

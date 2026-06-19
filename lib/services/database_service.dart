@@ -78,7 +78,7 @@ class DatabaseService extends GetxService {
       ),
       UserModel(
         id: 'admin_1',
-        email: 'admin@dental.com',
+        email: 'clouddentalexpress@gmail.com',
         name: 'Admin Chief',
         role: 'admin',
       ),

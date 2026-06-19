@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../widgets/glass_container.dart';
 import '../services/database_service.dart';
 import '../services/fcm_service.dart';
 import '../models/order.dart';
@@ -244,20 +246,198 @@ class AdminController extends GetxController {
     Get.snackbar('Success', 'Doctor registered successfully!');
   }
 
+  String _generateTempPassword() {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final rand = Random();
+    return List.generate(8, (index) => chars[rand.nextInt(chars.length)]).join();
+  }
+
   void approveDoctor(UserModel doctor) {
-    final updated = doctor.copyWith(isApproved: true);
+    // Generate an auto-generated temporary password if not set
+    final tempPassword = (doctor.password == null || doctor.password!.isEmpty)
+        ? _generateTempPassword()
+        : doctor.password!;
+
+    final updated = doctor.copyWith(
+      isApproved: true,
+      password: tempPassword,
+      mustChangePassword: true, // Force password change upon login
+    );
+
     final idx = _db.users.indexWhere((u) => u.id == doctor.id);
     if (idx >= 0) {
       _db.users[idx] = updated;
       
-      // Notify doctor
+      // Notify doctor in app
       _db.addNotification(
         doctor.id,
         'Account Approved',
-        'Your registration has been approved by the Admin. You now have full access to Cloud Dental Express.',
+        'Your registration has been approved. Your temporary password is: $tempPassword. Please log in and change your password.',
       );
       
-      Get.snackbar('Approved', 'Doctor ${doctor.name} has been approved successfully.');
+      final isDark = Get.theme.brightness == Brightness.dark;
+
+      Get.dialog(
+        Dialog(
+          backgroundColor: Colors.transparent,
+          child: GlassContainer(
+            borderRadius: 24,
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.check_circle_rounded, color: Colors.green, size: 28),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Doctor Approved!',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'The doctor\'s account has been activated. A professional notification email has been simulated and sent:',
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Simulated Email Client Container
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: isDark ? Colors.white.withOpacity(0.03) : Colors.black.withOpacity(0.02),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: isDark ? Colors.white10 : Colors.black12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Email Header
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: isDark ? Colors.white.withOpacity(0.03) : Colors.black.withOpacity(0.04),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text('To: ', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12)),
+                                  Text(doctor.email, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  const Text('Subject: ', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12)),
+                                  const Expanded(
+                                    child: Text(
+                                      'Welcome to Cloud Dental Express - Account Approved',
+                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        // Email Body
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Dear Dr. ${doctor.name},',
+                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'We are pleased to inform you that your clinical account on Cloud Dental Express has been successfully approved by the administration. You now have full access to our digital lab portal.',
+                                style: TextStyle(fontSize: 12, height: 1.4),
+                              ),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Please use the temporary credentials below to log in:',
+                                style: TextStyle(fontSize: 12, height: 1.4),
+                              ),
+                              const SizedBox(height: 10),
+                              
+                              // Credentials Card inside Email
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: isDark ? Colors.white10 : Colors.black12),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Username / Email: ${doctor.email}',
+                                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      'Temporary Password: $tempPassword',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Important Note: For privacy and account security, you will be prompted to change this temporary password immediately upon your first login.',
+                                style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: Colors.grey),
+                              ),
+                              const SizedBox(height: 14),
+                              const Text(
+                                'Best regards,\nCloud Dental Express Team',
+                                style: TextStyle(fontSize: 12, height: 1.4),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => Get.back(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('OK'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 

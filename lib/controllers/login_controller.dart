@@ -14,8 +14,9 @@ class LoginController extends GetxController {
   final nameController = TextEditingController();
   final clinicController = TextEditingController();
   final addressController = TextEditingController();
+  final regEmailController = TextEditingController();
+  final phoneController = TextEditingController();
   
-  final selectedRole = 'doctor'.obs; // 'doctor', 'admin', 'technician'
   final isRegisterMode = false.obs;
 
   // Selected clinic location coordinates
@@ -25,13 +26,6 @@ class LoginController extends GetxController {
 
   void toggleMode() {
     isRegisterMode.value = !isRegisterMode.value;
-  }
-
-  void selectRole(String role) {
-    selectedRole.value = role;
-    if (role != 'doctor') {
-      isRegisterMode.value = false;
-    }
   }
 
   void setLocation(double lat, double lng) {
@@ -56,10 +50,10 @@ class LoginController extends GetxController {
       if (formKey.currentState!.validate()) {
         _auth.registerDoctor(
           name: nameController.text.trim(),
+          email: regEmailController.text.trim(),
+          mobileNumber: phoneController.text.trim(),
           clinicName: clinicController.text.trim(),
           address: addressController.text.trim(),
-          latitude: latitude.value,
-          longitude: longitude.value,
         );
         Get.offAllNamed('/dashboard');
       }
@@ -80,7 +74,7 @@ class LoginController extends GetxController {
       } else {
         Get.snackbar(
           'Login Failed',
-          'Invalid email address or role combination. Try doctor@dental.com, admin@dental.com, or alex@dental.com',
+          'Invalid email address or password. Try doctor@dental.com, clouddentalexpress@gmail.com, or alex@dental.com',
           backgroundColor: Colors.red.withOpacity(0.8),
           colorText: Colors.white,
         );
@@ -89,12 +83,12 @@ class LoginController extends GetxController {
   }
 
   // Pre-fill email based on role selection for easy demo testing
-  void fillDemoCredentials() {
-    if (selectedRole.value == 'doctor') {
+  void fillDemoCredentials(String role) {
+    if (role == 'doctor') {
       emailController.text = 'doctor@dental.com';
-    } else if (selectedRole.value == 'admin') {
-      emailController.text = 'admin@dental.com';
-    } else if (selectedRole.value == 'technician') {
+    } else if (role == 'admin') {
+      emailController.text = 'clouddentalexpress@gmail.com';
+    } else if (role == 'technician') {
       emailController.text = 'alex@dental.com';
     }
     passwordController.text = 'password';
@@ -105,57 +99,6 @@ class LoginController extends GetxController {
     super.onInit();
     latitude.value = 19.0760;
     longitude.value = 72.8777;
-
-    addressController.addListener(() {
-      final addr = addressController.text.trim();
-      if (addr.isNotEmpty) {
-        final coords = _simulateGeocode(addr);
-        latitude.value = coords['lat']!;
-        longitude.value = coords['lng']!;
-        locationSet.value = true;
-      }
-    });
-  }
-
-  Map<String, double> _simulateGeocode(String address) {
-    final addr = address.toLowerCase().trim();
-    if (addr.isEmpty) {
-      return {'lat': 19.0760, 'lng': 72.8777};
-    }
-    
-    if (addr.contains(',')) {
-      final parts = addr.split(',');
-      if (parts.length == 2) {
-        final lat = double.tryParse(parts[0].trim());
-        final lng = double.tryParse(parts[1].trim());
-        if (lat != null && lng != null) {
-          return {'lat': lat, 'lng': lng};
-        }
-      }
-    }
-    
-    if (addr.contains('mumbai') || addr.contains('bandra') || addr.contains('dadar') || addr.contains('andheri') || addr.contains('colaba') || addr.contains('chembur')) {
-      double offset = (address.length % 5) * 0.003;
-      return {'lat': 19.0760 + offset, 'lng': 72.8777 - offset};
-    }
-    if (addr.contains('pune') || addr.contains('kothrud') || addr.contains('hinjewadi') || addr.contains('hadapsar') || addr.contains('chinchwad')) {
-      double offset = (address.length % 5) * 0.003;
-      return {'lat': 18.5204 + offset, 'lng': 73.8567 - offset};
-    }
-    if (addr.contains('nagpur')) {
-      return {'lat': 21.1458, 'lng': 79.0882};
-    }
-    if (addr.contains('nashik') || addr.contains('nasik')) {
-      return {'lat': 19.9975, 'lng': 73.7898};
-    }
-    if (addr.contains('thane')) {
-      return {'lat': 19.2183, 'lng': 72.9781};
-    }
-    
-    final int hash = address.hashCode;
-    final double latOffset = (hash % 100) / 2000.0;
-    final double lngOffset = ((hash >> 2) % 100) / 2000.0;
-    return {'lat': 19.0760 + latOffset, 'lng': 72.8777 + lngOffset};
   }
 
   @override
@@ -165,6 +108,8 @@ class LoginController extends GetxController {
     nameController.dispose();
     clinicController.dispose();
     addressController.dispose();
+    regEmailController.dispose();
+    phoneController.dispose();
     super.dispose();
   }
 

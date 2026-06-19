@@ -5,7 +5,6 @@ import '../../config/theme.dart';
 import '../../controllers/admin_controller.dart';
 import '../../services/database_service.dart';
 import '../../widgets/glass_container.dart';
-import '../../widgets/glass_button.dart';
 import '../../widgets/glass_input.dart';
 
 class BranchManagement extends StatelessWidget {
@@ -85,44 +84,7 @@ class BranchManagement extends StatelessWidget {
                       branch.address,
                       style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 13),
                     ),
-                    const SizedBox(height: 12),
-                    
-                    // Maps display card representation
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        height: 100,
-                        width: double.infinity,
-                        color: Colors.black26,
-                        child: Stack(
-                          children: [
-                            Image.network(
-                              'https://lh3.googleusercontent.com/aida-public/AB6AXuAaIwW5CHBTV2RSpm8A1_XXM3pnrpardPEDSv1KvYfkwPLTI5oFC6vME5MYanKCnWv1Z6gU-YkqjWKBRLDosjUCZk6Tna1rKxN8pPMt5G1mgtSrs8mbuxUrI6vl8P6mdanJUIsDeZie1KiNWsQpw7OQO8_MajCTBaxfGeZxoOSyh46yEWHy7rbIQoMZftAgzFdqhjiJSAYD6a7kfm1XaaUGbgBvdVfe0NdpThVkiMsJ5SgYopM1B75BH5Pi928Ite6YpJexEGyPsLPv',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                            Positioned(
-                              bottom: 8,
-                              left: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  'GPS: ${branch.latitude.toStringAsFixed(4)}, ${branch.longitude.toStringAsFixed(4)}',
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            const Center(
-                              child: Icon(Icons.pin_drop, color: Colors.redAccent, size: 30),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ).animate().fadeIn(delay: (index * 60).ms).slideY(begin: 0.1, end: 0);
@@ -170,28 +132,7 @@ class BranchManagement extends StatelessWidget {
                 hintText: '450 Precision Way...',
                 maxLines: 2,
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: GlassInput(
-                      controller: controller.branchLatController,
-                      labelText: 'Latitude',
-                      hintText: '40.7306',
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: GlassInput(
-                      controller: controller.branchLngController,
-                      labelText: 'Longitude',
-                      hintText: '-73.9352',
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
+
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

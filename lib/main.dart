@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:get/get.dart';
 import 'config/theme.dart';
 import 'services/database_service.dart';
@@ -28,6 +29,9 @@ import 'views/technician/technician_order_detail.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Make all animations twice as fast for a snappier feel
+  timeDilation = 0.5;
+  
   // Initialize Core Services
   final dbService = Get.put(DatabaseService(), permanent: true);
   final authService = Get.put(AuthService(), permanent: true);
@@ -52,6 +56,8 @@ class CloudDentalExpressApp extends StatelessWidget {
       themeMode: ThemeMode.system, // respects system theme
       initialRoute: '/login',
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 150),
       builder: (context, child) {
         final connectivity = Get.find<ConnectivityService>();
         return Stack(

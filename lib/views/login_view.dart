@@ -6,7 +6,6 @@ import '../controllers/login_controller.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/glass_button.dart';
 import '../widgets/glass_input.dart';
-import '../widgets/tile_map_widget.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -76,25 +75,6 @@ class LoginView extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
 
-                              // Role Selection Pills (Only in Login Mode)
-                              if (!controller.isRegisterMode.value) ...[
-                                Container(
-                                  padding: const EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                    color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04),
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      _roleTab(context, 'doctor', 'Doctor', controller),
-                                      _roleTab(context, 'admin', 'Admin', controller),
-                                      _roleTab(context, 'technician', 'Tech', controller),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 24),
-                              ],
-
                               // Form Fields
                               if (controller.isRegisterMode.value) ...[
                                 GlassInput(
@@ -122,82 +102,21 @@ class LoginView extends StatelessWidget {
                                   validator: (v) => v!.isEmpty ? 'Enter clinic address' : null,
                                 ),
                                 const SizedBox(height: 16),
-                                
-                                // Map Location Pin Selection
-                                Text(
-                                  'Clinic Map Pin',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                GlassInput(
+                                  controller: controller.phoneController,
+                                  labelText: 'Mobile Number',
+                                  hintText: 'e.g. 9876543210',
+                                  prefixIcon: Icons.phone_android_rounded,
+                                  keyboardType: TextInputType.phone,
+                                  validator: (v) => v!.isEmpty ? 'Enter mobile number' : null,
                                 ),
-                                const SizedBox(height: 6),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 120,
-                                    color: Colors.grey.withOpacity(0.2),
-                                    child: Stack(
-                                      children: [
-                                        // Dynamic Static Maps Image
-                                        Obx(() => TileMapWidget(
-                                          latitude: controller.latitude.value,
-                                          longitude: controller.longitude.value,
-                                          height: 120,
-                                        )),
-                                        Positioned.fill(
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                controller.setLocation(
-                                                  controller.latitude.value + 0.001,
-                                                  controller.longitude.value + 0.001,
-                                                );
-                                                Get.snackbar(
-                                                  'Pin Set',
-                                                  'Clinic location pin dropped!',
-                                                  backgroundColor: Colors.white.withOpacity(0.9),
-                                                  colorText: GlacierColors.lightPrimary,
-                                                );
-                                              },
-                                              child: Center(
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.pin_drop,
-                                                      size: 38,
-                                                      color: isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary,
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Obx(() => Text(
-                                                      controller.locationSet.value 
-                                                          ? 'Coordinates: ${controller.latitude.value.toStringAsFixed(4)}, ${controller.longitude.value.toStringAsFixed(4)}'
-                                                          : 'Tap to Drop Pin',
-
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 12,
-                                                        shadows: [
-                                                          Shadow(
-                                                            offset: Offset(0, 1),
-                                                            blurRadius: 4,
-                                                            color: Colors.black54,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                GlassInput(
+                                  controller: controller.regEmailController,
+                                  labelText: 'Email Address',
+                                  hintText: 'e.g. doctor@dental.com',
+                                  prefixIcon: Icons.email_outlined,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (v) => v!.isEmpty ? 'Enter email address' : null,
                                 ),
                                 const SizedBox(height: 24),
                               ] else ...[
@@ -244,45 +163,59 @@ class LoginView extends StatelessWidget {
 
                               // Quick Fill Helper for Demo Users
                               if (!controller.isRegisterMode.value) ...[
+                                const SizedBox(height: 16),
                                 Center(
-                                  child: TextButton.icon(
-                                    onPressed: controller.fillDemoCredentials,
-                                    icon: const Icon(Icons.flash_on, size: 16),
-                                    label: const Text('Auto-Fill Demo Credentials'),
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: isDark ? Colors.white60 : Colors.black54,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Quick Fill Demo Account',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: isDark ? Colors.white38 : Colors.black38,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          _demoFillChip(context, 'Doctor', () => controller.fillDemoCredentials('doctor')),
+                                          const SizedBox(width: 8),
+                                          _demoFillChip(context, 'Admin', () => controller.fillDemoCredentials('admin')),
+                                          const SizedBox(width: 8),
+                                          _demoFillChip(context, 'Technician', () => controller.fillDemoCredentials('technician')),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
 
                               // Mode Toggle
-                              if (controller.selectedRole.value == 'doctor') ...[
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      controller.isRegisterMode.value
-                                          ? 'Already have an account? '
-                                          : 'Don\'t have an account? ',
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    controller.isRegisterMode.value
+                                        ? 'Already have an account? '
+                                        : 'Don\'t have an account? ',
+                                    style: TextStyle(
+                                      color: isDark ? Colors.white60 : Colors.black54,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: controller.toggleMode,
+                                    child: Text(
+                                      controller.isRegisterMode.value ? 'Log In' : 'Register',
                                       style: TextStyle(
-                                        color: isDark ? Colors.white60 : Colors.black54,
+                                        color: isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    GestureDetector(
-                                      onTap: controller.toggleMode,
-                                      child: Text(
-                                        controller.isRegisterMode.value ? 'Log In' : 'Register',
-                                        style: TextStyle(
-                                          color: isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         )),
@@ -304,45 +237,39 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _roleTab(
+  Widget _demoFillChip(
     BuildContext context,
-    String role,
     String label,
-    LoginController controller,
+    VoidCallback onTap,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    return Expanded(
-      child: Obx(() {
-        final isSelected = controller.selectedRole.value == role;
-        
-        Color tabBg = Colors.transparent;
-        if (isSelected) {
-          tabBg = isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary;
-        }
-
-        return GestureDetector(
-          onTap: () => controller.selectRole(role),
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: tabBg,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isDark ? Colors.white10 : Colors.black12,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.flash_on, size: 10, color: Colors.orangeAccent),
+            const SizedBox(width: 4),
+            Text(
               label,
               style: TextStyle(
-                color: isSelected
-                    ? Colors.white
-                    : (isDark ? Colors.white70 : Colors.black54),
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white70 : Colors.black87,
               ),
             ),
-          ),
-        );
-      }),
+          ],
+        ),
+      ),
     );
   }
 }

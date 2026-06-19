@@ -10,6 +10,8 @@ class UserModel {
   final double? longitude;
   final String? profilePhotoUrl;
   final bool isApproved;
+  final String? mobileNumber;
+  final bool mustChangePassword;
 
   UserModel({
     required this.id,
@@ -23,6 +25,8 @@ class UserModel {
     this.longitude,
     this.profilePhotoUrl,
     this.isApproved = true,
+    this.mobileNumber,
+    this.mustChangePassword = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +42,8 @@ class UserModel {
       longitude: (json['longitude'] as num?)?.toDouble(),
       profilePhotoUrl: json['profilePhotoUrl'] as String?,
       isApproved: json['isApproved'] as bool? ?? true,
+      mobileNumber: json['mobileNumber'] as String?,
+      mustChangePassword: json['mustChangePassword'] as bool? ?? false,
     );
   }
 
@@ -54,6 +60,8 @@ class UserModel {
       'longitude': longitude,
       'profilePhotoUrl': profilePhotoUrl,
       'isApproved': isApproved,
+      'mobileNumber': mobileNumber,
+      'mustChangePassword': mustChangePassword,
     };
   }
 
@@ -66,6 +74,8 @@ class UserModel {
     double? longitude,
     String? profilePhotoUrl,
     bool? isApproved,
+    String? mobileNumber,
+    bool? mustChangePassword,
   }) {
     return UserModel(
       id: id,
@@ -79,6 +89,8 @@ class UserModel {
       longitude: longitude ?? this.longitude,
       profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
       isApproved: isApproved ?? this.isApproved,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      mustChangePassword: mustChangePassword ?? this.mustChangePassword,
     );
   }
 }

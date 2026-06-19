@@ -6,7 +6,6 @@ import '../../controllers/admin_controller.dart';
 import '../../services/database_service.dart';
 import '../../widgets/glass_container.dart';
 import '../../widgets/glass_input.dart';
-import '../../widgets/tile_map_widget.dart';
 import '../../models/user.dart';
 
 class DoctorManagement extends StatelessWidget {
@@ -271,29 +270,6 @@ class DoctorManagement extends StatelessWidget {
                   controller: controller.docAddressController,
                   labelText: 'Clinic Address',
                   hintText: 'e.g. Pune, Maharashtra',
-                ),
-                const SizedBox(height: 12),
-                
-                // Clinic Map Pin Preview
-                Text(
-                  'Clinic Map Pin Preview',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                const SizedBox(height: 6),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    width: double.infinity,
-                    height: 120,
-                    color: Colors.grey.withOpacity(0.2),
-                    child: Obx(() => TileMapWidget(
-                      latitude: controller.docLatitude.value,
-                      longitude: controller.docLongitude.value,
-                      height: 120,
-                    )),
-                  ),
                 ),
                 const SizedBox(height: 12),
                 GlassInput(
