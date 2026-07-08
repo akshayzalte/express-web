@@ -46,13 +46,13 @@ class NewOrderForm extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             children: [
-              // Patient Details Card
+              // Diagnosis Card
               GlassContainer(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Patient Details',
+                      'Diagnosis',
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 18),
                     ),
                     const SizedBox(height: 16),
@@ -141,14 +141,17 @@ class NewOrderForm extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(16, (index) {
-                          final toothNum = index + 1;
-                          return _toothBox(toothNum, controller);
-                        }),
-                      ),
+                    GridView.count(
+                      crossAxisCount: 8,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 6,
+                      crossAxisSpacing: 6,
+                      childAspectRatio: 0.8,
+                      children: List.generate(16, (index) {
+                        final toothNum = index + 1;
+                        return _toothBox(toothNum, controller);
+                      }),
                     ),
                     const SizedBox(height: 12),
                     Divider(color: isDark ? Colors.white12 : Colors.black12),
@@ -160,14 +163,17 @@ class NewOrderForm extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(16, (index) {
-                          final toothNum = 32 - index;
-                          return _toothBox(toothNum, controller);
-                        }),
-                      ),
+                    GridView.count(
+                      crossAxisCount: 8,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 6,
+                      crossAxisSpacing: 6,
+                      childAspectRatio: 0.8,
+                      children: List.generate(16, (index) {
+                        final toothNum = 32 - index;
+                        return _toothBox(toothNum, controller);
+                      }),
                     ),
                   ],
                 ),
@@ -466,9 +472,6 @@ class NewOrderForm extends StatelessWidget {
       return GestureDetector(
         onTap: () => controller.toggleTooth(number),
         child: Container(
-          width: 38,
-          height: 48,
-          margin: const EdgeInsets.only(right: 6),
           decoration: BoxDecoration(
             color: isSelected
                 ? (isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary)
