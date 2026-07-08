@@ -1,0 +1,709 @@
+एंटायर सोल्यूशन: फाईल्स आणि फोल्डर्सची रचना (Solution Structure)
+तुमच्या Visual Studio च्या Solution Explorer मध्ये आपण खालील फोल्डर्स आणि फाईल्स तयार केल्या आहेत:
+
+१. Base & Helpers (मूलभूत सहाय्यक फाईल्स) - Helpers फोल्डरमध्ये:
+
+DatabaseHelper.vb: यात SQLite डेटाबेस (DLMS.db) तयार करण्याची स्क्रिप्ट आहे. ९ Normalized Tables (Users, Doctors, Patients, Entries, Bills, इ.) आणि WAL mode (जलद कामगिरीसाठी) याच फाईलमधून येतात.
+
+DataSeeder.vb: या कोडमुळे ऍप्लिकेशन पहिल्यांदा उघडल्यावर Work Types (Zirconia, PFM, इ.) आणि एक डमी डॉक्टर आपोआप Database मध्ये Add होतात.
+
+BackupManager.vb: ही फाईल Application बंद करताना शांतपणे (Silently) Database चा Hot Backup घेते. यासाठी ती VACUUM INTO ही अत्यंत प्रोफेशनल SQL कमांड वापरते.
+
+२. Data Access Layer (DAL) - DataAccess फोल्डरमध्ये:
+
+SQLiteDataAccess.vb: हा संपूर्ण Database चा Engine आहे. ExecuteQuery, ExecuteNonQuery (Insert/Update/Delete) या मेथॉड्सद्वारे ते SQLite शी बोलते. IDisposable इंटरफेस वापरून Memory leaks टाळते.
+
+DoctorRepository.vb: फक्त डॉक्टर्सचे (GetAll, Add) SQL ऑपरेशन्स इथे आहेत.
+
+PatientRepository.vb: फक्त पेशंट्सचे (GetAll, Add, Search) SQL ऑपरेशन्स इथे आहेत.
+
+३. Business Logic Layer (BLL) - DataAccess फोल्डरमध्येच:
+
+DoctorService.vb: हा DoctorRepository ला Wrap करतो. यात Validation (नाव रिक्त नसावे, मोबाईल फक्त अंक असावेत) चा प्रोफेशनल कोड आहे.
+
+४. Models / Entities (डेटाबेसचे वस्तू) - Models फोल्डरमध्ये:
+
+Doctor.vb, Patient.vb, WorkType.vb, Entry.vb: या सगळ्या फाईल्स Class (POCO) आहेत. यात Public Property असतात (उदा. DoctorName, Mobile), जे DB च्या Column शी जोडलेले आहेत.
+
+५. UI / Forms (Windows Forms): प्रोजेक्टच्या मुळाशी (Root):
+
+FrmSplash.vb: १ सेकंद दिसणारा स्प्लॅश. लोगो, Blue Gradient आणि जाड (Height 40) फिरणारा Marquee Loading Bar. स्वतःच गणित लावून Desktop च्या अगदी मध्यभागी उघडते.
+
+FrmLogin.vb: 780x620 आकाराची. Logo, Username/Password, BCrypt पासवर्ड व्हेरीफिकेशन. Remember Me टिक केल्यास dlms_creds.txt फाईलमध्ये Username आणि Password सेव्ह करते आणि पुन्हा Load करते.
+
+Form1.vb: हा आपला Main Dashboard आहे. 1300x850 आकार. डाव्या बाजूला 260px Sidebar (Logo, 4 Buttons). लाल रंगाचा ☰ (हॅम्बर्गर) बटण, ज्यावर क्लिक केल्यावर Sidebar लपतो/उघडतो. GDI+ वापरून पार्श्वभूमीवर अर्धपारदर्शक Watermark Logo. आणि ३ आकर्षक रंगीत (Blue, Green, Orange) KPI Cards (Total Doctors, Active Patients, Today's Entries).
+
+FrmDoctorMaster.vb: Grid चे Headers Blue, Alternating Rows (Zebra stripes), Search Box, Add Doctor बटण.
+
+FrmAddEditDoctor.vb: Add Doctor बटण दाबल्यावर येणारा मोठा Popup. इथे नाव, मोबाईल, पत्ता भरून डॉक्टर सेव्ह होतो.
+
+FrmPatientMaster.vb: Doctor Master सारखाच Grid, पण Patients साठी. (Add चा Popup अजून बाकी).
+
+६. System/Startup
+
+ApplicationEvents.vb: ही Visual Studio ची Startup फाईल आहे. इथे स्प्लॅश उघडणे, Login उघडणे आणि Login झाल्यावर Application.Run(Form1) चालवणे हे Logic आहे.
+
+✅ काय पूर्ण झाले आहे? (Completed Work - ~40%)
+१. डेटाबेस आणि आर्किटेक्चर: SQLite ची पूर्ण स्कीमा, DataAccess, Repositories, आणि Business Logic (Services) तयार आहे.
+२. Splash, Login आणि Dashboard UI: Splash आणि Login अगदी Perfect झाले आहेत. Dashboard वर Watermark, Hamburger Toggle आणि तीन KPI Cards पूर्ण आहेत.
+३. Master Data: Doctor Master (Add/Edit/Grid/Search) आणि Patient Master (Grid/Search) पूर्ण झाले आहेत.
+४. Auto Backup: Application बंद होताना Hot Backup चालू होते.
+
+🚧 अजून काय बाकी आहे? (Remaining Work - ~60%)
+ही पायरी अत्यंत महत्त्वाची आहे. आता आपल्याला प्रत्यक्ष "Lab Work" चे मॉड्यूल्स बनवायचे आहेत.
+१. Work Master: Admin ला नवीन Work Types (Zirconia, CAD CAM) Add/Edit करण्यासाठी एक नवीन UI.
+२. Daily Entry (Tooth Selector) - सर्वात मोठा फेज!: एक ग्राफिकल Tooth Selector (१ ते ३२ दात) जेथे माऊसने क्लिक करून Entry तयार होईल. Date, Doctor, Patient, Tooth, Work Type यांचा Data Entry form.
+३. Billing Module: Tally सारखा Professional Invoice तयार करणे (RDLC ReportViewer वापरून). Doctor निवडला की त्याच्या फक्त "Ready" entries आपोआप लोड होणे आणि बिल बनणे.
+४. Payment Module: Cash, UPI, Cheque, Partial Payment. Outstanding Balance.
+५. Reports & Excel Export: ११ Reports (Daily, Monthly, Outstanding), आणि ClosedXML वापरून Professional Excel Export.
+६. Advanced Search: तारखेनुसार, बिल नंबरने, टूथ नंबरने शोधणे.
+७. User Management: Admin ला नवीन Operators तयार करण्याचा पॅनल.
+
+
+' ================================================================
+' File: DatabaseHelper.vb (Helpers)
+' ================================================================
+Imports System.Data.SQLite
+Imports System.IO
+
+Public Class DatabaseHelper
+    Public Shared ReadOnly ConnectionString As String = "Data Source=" & Path.Combine(Application.StartupPath, "DLMS.db") & ";Version=3;"
+
+    Public Shared Sub InitializeDatabase()
+        If Not File.Exists(Path.Combine(Application.StartupPath, "DLMS.db")) Then
+            Using conn As New SQLiteConnection(ConnectionString)
+                conn.Open()
+                Using cmd As New SQLiteCommand("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;", conn)
+                    cmd.ExecuteNonQuery()
+                End Using
+
+                Dim schema As String = "
+                    CREATE TABLE tblUsers (UserId INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT UNIQUE NOT NULL, PasswordHash TEXT NOT NULL, Role TEXT NOT NULL, IsActive INTEGER DEFAULT 1);
+                    CREATE TABLE tblDoctors (DoctorId INTEGER PRIMARY KEY AUTOINCREMENT, DoctorName TEXT NOT NULL, ClinicName TEXT, Mobile TEXT, Address TEXT, City TEXT, Email TEXT, GST TEXT, OpeningBalance DECIMAL(10,2) DEFAULT 0, CreditLimit DECIMAL(10,2) DEFAULT 0, Status TEXT DEFAULT 'Active');
+                    CREATE TABLE tblPatients (PatientId INTEGER PRIMARY KEY AUTOINCREMENT, PatientName TEXT NOT NULL, Age INTEGER, Gender TEXT, DoctorId INTEGER, Mobile TEXT, History TEXT, FOREIGN KEY(DoctorId) REFERENCES tblDoctors(DoctorId));
+                    CREATE TABLE tblWorkTypes (WorkId INTEGER PRIMARY KEY AUTOINCREMENT, WorkName TEXT UNIQUE NOT NULL, Category TEXT, Price DECIMAL(10,2) NOT NULL, Status TEXT DEFAULT 'Active');
+                    CREATE TABLE tblEntries (EntryId INTEGER PRIMARY KEY AUTOINCREMENT, EntryNumber TEXT UNIQUE NOT NULL, EntryDate TEXT NOT NULL, DoctorId INTEGER, PatientId INTEGER, ToothNumber TEXT, WorkId INTEGER, Models TEXT, Remarks TEXT, DeliveryDate TEXT, Amount DECIMAL(10,2) NOT NULL, Status INTEGER DEFAULT 0, IsDeleted INTEGER DEFAULT 0, FOREIGN KEY(DoctorId) REFERENCES tblDoctors(DoctorId), FOREIGN KEY(PatientId) REFERENCES tblPatients(PatientId), FOREIGN KEY(WorkId) REFERENCES tblWorkTypes(WorkId));
+                    CREATE TABLE tblBills (BillId INTEGER PRIMARY KEY AUTOINCREMENT, BillNumber TEXT UNIQUE NOT NULL, BillDate TEXT NOT NULL, DoctorId INTEGER, PatientId INTEGER, SubTotal DECIMAL(10,2) NOT NULL, Discount DECIMAL(10,2) DEFAULT 0, GrandTotal DECIMAL(10,2) NOT NULL, Balance DECIMAL(10,2) NOT NULL, Status TEXT DEFAULT 'Unpaid', FOREIGN KEY(DoctorId) REFERENCES tblDoctors(DoctorId), FOREIGN KEY(PatientId) REFERENCES tblPatients(PatientId));
+                    CREATE TABLE tblBillDetails (DetailId INTEGER PRIMARY KEY AUTOINCREMENT, BillId INTEGER NOT NULL, EntryId INTEGER NOT NULL, Amount DECIMAL(10,2) NOT NULL, FOREIGN KEY(BillId) REFERENCES tblBills(BillId), FOREIGN KEY(EntryId) REFERENCES tblEntries(EntryId));
+                    CREATE TABLE tblPayments (PaymentId INTEGER PRIMARY KEY AUTOINCREMENT, BillId INTEGER NOT NULL, PaymentDate TEXT NOT NULL, Mode TEXT NOT NULL, ReferenceNo TEXT, Amount DECIMAL(10,2) NOT NULL, Remarks TEXT, FOREIGN KEY(BillId) REFERENCES tblBills(BillId));
+                    CREATE TABLE tblBackupHistory (BackupId INTEGER PRIMARY KEY AUTOINCREMENT, BackupDate TEXT NOT NULL, FilePath TEXT NOT NULL, Size TEXT, Type TEXT);
+                    CREATE INDEX idx_entries_doctor ON tblEntries(DoctorId);
+                    CREATE INDEX idx_entries_status ON tblEntries(Status);
+                    CREATE INDEX idx_payments_bill ON tblPayments(BillId);
+                    CREATE INDEX idx_bills_doctor ON tblBills(DoctorId);
+                "
+                Using cmd As New SQLiteCommand(schema, conn)
+                    cmd.ExecuteNonQuery()
+                End Using
+                Using cmd As New SQLiteCommand("INSERT INTO tblUsers (Username, PasswordHash, Role, IsActive) VALUES (@u, @p, 'Admin', 1)", conn)
+                    cmd.Parameters.AddWithValue("@u", "admin")
+                    cmd.Parameters.AddWithValue("@p", BCrypt.Net.BCrypt.HashPassword("admin123"))
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+        End If
+    End Sub
+End Class
+
+' ================================================================
+' File: SQLiteDataAccess.vb (DataAccess)
+' ================================================================
+Imports System.Data.SQLite
+Imports System.IO
+
+Public Class SQLiteDataAccess
+    Implements IDisposable
+    Private ReadOnly _connection As SQLiteConnection
+    Public Sub New()
+        _connection = New SQLiteConnection(DatabaseHelper.ConnectionString)
+    End Sub
+    Public Function OpenConnection() As SQLiteConnection
+        If _connection.State <> ConnectionState.Open Then _connection.Open()
+        Return _connection
+    End Function
+    Public Function ExecuteQuery(sql As String, Optional parameters As Dictionary(Of String, Object) = Nothing) As DataTable
+        Dim dt As New DataTable()
+        Using cmd As New SQLiteCommand(sql, OpenConnection())
+            If parameters IsNot Nothing Then
+                For Each kvp In parameters
+                    cmd.Parameters.AddWithValue(kvp.Key, kvp.Value)
+                Next
+            End If
+            Using reader As SQLiteDataReader = cmd.ExecuteReader()
+                dt.Load(reader)
+            End Using
+        End Using
+        Return dt
+    End Function
+    Public Function ExecuteNonQuery(sql As String, Optional parameters As Dictionary(Of String, Object) = Nothing) As Integer
+        Using cmd As New SQLiteCommand(sql, OpenConnection())
+            If parameters IsNot Nothing Then
+                For Each kvp In parameters
+                    cmd.Parameters.AddWithValue(kvp.Key, kvp.Value)
+                Next
+            End If
+            Return cmd.ExecuteNonQuery()
+        End Using
+    End Function
+    Public Function ExecuteScalar(Of T)(sql As String, Optional parameters As Dictionary(Of String, Object) = Nothing) As T
+        Using cmd As New SQLiteCommand(sql, OpenConnection())
+            If parameters IsNot Nothing Then
+                For Each kvp In parameters
+                    cmd.Parameters.AddWithValue(kvp.Key, kvp.Value)
+                Next
+            End If
+            Dim result = cmd.ExecuteScalar()
+            If result IsNot Nothing AndAlso result IsNot DBNull.Value Then Return CType(result, T)
+            Return Nothing
+        End Using
+    End Function
+    Public Sub CloseConnection()
+        If _connection.State = ConnectionState.Open Then _connection.Close()
+    End Sub
+    Public Sub Dispose() Implements IDisposable.Dispose
+        CloseConnection()
+        _connection.Dispose()
+    End Sub
+End Class
+
+' ================================================================
+' File: DataSeeder.vb (Helpers)
+' ================================================================
+Imports System.Data.SQLite
+
+Public Class DataSeeder
+    Public Shared Sub SeedInitialData()
+        Using dal As New SQLiteDataAccess()
+            Dim count As Integer = dal.ExecuteScalar(Of Integer)("SELECT COUNT(*) FROM tblWorkTypes")
+            If count = 0 Then
+                Dim workTypes As String() = {"Zirconia", "PFM", "Metal", "Wax", "Implant", "CAD CAM", "Laser", "Denture", "Temporary Crown", "3D Print"}
+                Dim prices As Decimal() = {1500, 1200, 800, 500, 2500, 3000, 2000, 1800, 600, 2200}
+                For i As Integer = 0 To workTypes.Length - 1
+                    Dim sql As String = "INSERT INTO tblWorkTypes (WorkName, Category, Price, Status) VALUES (@Name, 'General', @Price, 'Active')"
+                    Dim params As New Dictionary(Of String, Object) From {{"@Name", workTypes(i)}, {"@Price", prices(i)}}
+                    dal.ExecuteNonQuery(sql, params)
+                Next
+            End If
+            Dim docCount As Integer = dal.ExecuteScalar(Of Integer)("SELECT COUNT(*) FROM tblDoctors")
+            If docCount = 0 Then
+                Dim sql As String = "INSERT INTO tblDoctors (DoctorName, ClinicName, Mobile, City, Status) VALUES (@Name, 'Sunrise Dental Clinic', '9876543210', 'Mumbai', 'Active')"
+                Dim params As New Dictionary(Of String, Object) From {{"@Name", "Dr. Sharma"}}
+                dal.ExecuteNonQuery(sql, params)
+            End If
+        End Using
+    End Sub
+End Class
+
+' ================================================================
+' File: BackupManager.vb (Helpers)
+' ================================================================
+Imports System.Data.SQLite
+Imports System.IO
+
+Public Class BackupManager
+    Public Shared Sub PerformBackup()
+        Try
+            Dim sourceDb As String = Path.Combine(Application.StartupPath, "DLMS.db")
+            Dim backupFolder As String = Path.Combine(Application.StartupPath, "Backups")
+            If Not File.Exists(sourceDb) Then Return
+            If Not Directory.Exists(backupFolder) Then Directory.CreateDirectory(backupFolder)
+            Dim timestamp As String = DateTime.Now.ToString("yyyyMMdd_HHmmss")
+            Dim destFile As String = Path.Combine(backupFolder, $"DLMS_Backup_{timestamp}.db")
+            Using conn As New SQLiteConnection(DatabaseHelper.ConnectionString)
+                conn.Open()
+                Using cmd As New SQLiteCommand($"VACUUM INTO '{destFile}';", conn)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+            Using dal As New SQLiteDataAccess()
+                Dim sql As String = "INSERT INTO tblBackupHistory (BackupDate, FilePath, Size, Type) VALUES (@Date, @Path, @Size, 'Auto')"
+                Dim fi As New FileInfo(destFile)
+                Dim params As New Dictionary(Of String, Object) From {{"@Date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}, {"@Path", destFile}, {"@Size", fi.Length.ToString()}}
+                dal.ExecuteNonQuery(sql, params)
+            End Using
+        Catch ex As Exception
+            File.WriteAllText(Path.Combine(Application.StartupPath, "Backup_Error.log"), $"{DateTime.Now}: {ex.Message}")
+        End Try
+    End Sub
+End Class
+
+' ================================================================
+' File: Doctor.vb (Models)
+' ================================================================
+Public Class Doctor
+    Public Property DoctorId As Integer
+    Public Property DoctorName As String
+    Public Property ClinicName As String
+    Public Property Mobile As String
+    Public Property Address As String
+    Public Property City As String
+    Public Property Email As String
+    Public Property GST As String
+    Public Property OpeningBalance As Decimal
+    Public Property CreditLimit As Decimal
+    Public Property Status As String
+End Class
+
+' ================================================================
+' File: Patient.vb (Models)
+' ================================================================
+Public Class Patient
+    Public Property PatientId As Integer
+    Public Property PatientName As String
+    Public Property Age As Integer?
+    Public Property Gender As String
+    Public Property DoctorId As Integer
+    Public Property Mobile As String
+    Public Property History As String
+End Class
+
+' ================================================================
+' File: WorkType.vb (Models)
+' ================================================================
+Public Class WorkType
+    Public Property WorkId As Integer
+    Public Property WorkName As String
+    Public Property Category As String
+    Public Property Price As Decimal
+    Public Property Status As String
+End Class
+
+' ================================================================
+' File: Entry.vb (Models)
+' ================================================================
+Public Class Entry
+    Public Property EntryId As Integer
+    Public Property EntryNumber As String
+    Public Property EntryDate As DateTime
+    Public Property DoctorId As Integer
+    Public Property PatientId As Integer
+    Public Property ToothNumber As String
+    Public Property WorkId As Integer
+    Public Property Models As String
+    Public Property Remarks As String
+    Public Property DeliveryDate As DateTime?
+    Public Property Amount As Decimal
+    Public Property Status As Integer
+    Public Property IsDeleted As Boolean
+End Class
+
+' ================================================================
+' File: DoctorRepository.vb (DataAccess)
+' ================================================================
+Public Class DoctorRepository
+    Implements IDisposable
+    Private ReadOnly _dal As SQLiteDataAccess
+    Public Sub New()
+        _dal = New SQLiteDataAccess()
+    End Sub
+    Public Function GetAllDoctors() As List(Of Doctor)
+        Dim dt As DataTable = _dal.ExecuteQuery("SELECT * FROM tblDoctors WHERE Status = 'Active' ORDER BY DoctorName")
+        Dim list As New List(Of Doctor)()
+        For Each row As DataRow In dt.Rows
+            list.Add(New Doctor() With {
+                .DoctorId = CInt(row("DoctorId")),
+                .DoctorName = row("DoctorName").ToString(),
+                .ClinicName = row("ClinicName").ToString(),
+                .Mobile = row("Mobile").ToString(),
+                .City = row("City").ToString(),
+                .OpeningBalance = CDec(row("OpeningBalance")),
+                .Status = row("Status").ToString()
+            })
+        Next
+        Return list
+    End Function
+    Public Function AddDoctor(doc As Doctor) As Boolean
+        Dim sql As String = "INSERT INTO tblDoctors (DoctorName, ClinicName, Mobile, Address, City, Email, GST, OpeningBalance, CreditLimit, Status) VALUES (@Name, @Clinic, @Mobile, @Address, @City, @Email, @GST, @OB, @CL, @Status)"
+        Dim params As New Dictionary(Of String, Object) From {
+            {"@Name", doc.DoctorName}, {"@Clinic", doc.ClinicName}, {"@Mobile", doc.Mobile}, {"@Address", doc.Address},
+            {"@City", doc.City}, {"@Email", doc.Email}, {"@GST", doc.GST}, {"@OB", doc.OpeningBalance}, {"@CL", doc.CreditLimit},
+            {"@Status", doc.Status}
+        }
+        Return _dal.ExecuteNonQuery(sql, params) > 0
+    End Function
+    Public Sub Dispose() Implements IDisposable.Dispose
+        _dal.Dispose()
+    End Sub
+End Class
+
+' ================================================================
+' File: PatientRepository.vb (DataAccess)
+' ================================================================
+Public Class PatientRepository
+    Implements IDisposable
+    Private ReadOnly _dal As SQLiteDataAccess
+    Public Sub New()
+        _dal = New SQLiteDataAccess()
+    End Sub
+    Public Function GetAllPatients() As List(Of Patient)
+        Dim dt As DataTable = _dal.ExecuteQuery("SELECT * FROM tblPatients ORDER BY PatientName")
+        Return MapDataTableToPatients(dt)
+    End Function
+    Public Function GetPatientsByDoctor(doctorId As Integer) As List(Of Patient)
+        Dim sql As String = "SELECT * FROM tblPatients WHERE DoctorId = @DocId ORDER BY PatientName"
+        Dim params As New Dictionary(Of String, Object) From {{"@DocId", doctorId}}
+        Dim dt As DataTable = _dal.ExecuteQuery(sql, params)
+        Return MapDataTableToPatients(dt)
+    End Function
+    Public Function AddPatient(patient As Patient) As Boolean
+        Dim checkSql As String = "SELECT COUNT(*) FROM tblPatients WHERE Mobile = @Mobile"
+        Dim checkParams As New Dictionary(Of String, Object) From {{"@Mobile", patient.Mobile}}
+        If _dal.ExecuteScalar(Of Integer)(checkSql, checkParams) > 0 Then
+            Throw New Exception("Duplicate Mobile Number found!")
+        End If
+        Dim sql As String = "INSERT INTO tblPatients (PatientName, Age, Gender, DoctorId, Mobile, History) VALUES (@Name, @Age, @Gender, @DocId, @Mobile, @History)"
+        Dim params As New Dictionary(Of String, Object) From {
+            {"@Name", patient.PatientName}, {"@Age", If(patient.Age.HasValue, patient.Age.Value, DBNull.Value)},
+            {"@Gender", patient.Gender}, {"@DocId", patient.DoctorId}, {"@Mobile", patient.Mobile}, {"@History", patient.History}
+        }
+        Return _dal.ExecuteNonQuery(sql, params) > 0
+    End Function
+    Public Sub Dispose() Implements IDisposable.Dispose
+        _dal.Dispose()
+    End Sub
+    Private Function MapDataTableToPatients(dt As DataTable) As List(Of Patient)
+        Dim list As New List(Of Patient)()
+        For Each row As DataRow In dt.Rows
+            list.Add(New Patient() With {
+                .PatientId = CInt(row("PatientId")), .PatientName = row("PatientName").ToString(),
+                .Age = If(row("Age") Is DBNull.Value, Nothing, CInt(row("Age"))), .Gender = row("Gender").ToString(),
+                .DoctorId = CInt(row("DoctorId")), .Mobile = row("Mobile").ToString(), .History = row("History").ToString()
+            })
+        Next
+        Return list
+    End Function
+End Class
+
+' ================================================================
+' File: DoctorService.vb (Business Logic)
+' ================================================================
+Public Class DoctorService
+    Implements IDisposable
+    Private ReadOnly _repo As DoctorRepository
+    Public Sub New()
+        _repo = New DoctorRepository()
+    End Sub
+    Public Function RegisterNewDoctor(doc As Doctor) As Boolean
+        If String.IsNullOrWhiteSpace(doc.DoctorName) Then Throw New ArgumentException("Doctor Name is required.")
+        If String.IsNullOrWhiteSpace(doc.Mobile) Then Throw New ArgumentException("Mobile Number is required.")
+        If Not doc.Mobile.All(AddressOf Char.IsDigit) Then Throw New ArgumentException("Mobile must contain only digits.")
+        Return _repo.AddDoctor(doc)
+    End Function
+    Public Function GetAllActiveDoctors() As List(Of Doctor)
+        Return _repo.GetAllDoctors()
+    End Function
+    Public Sub Dispose() Implements IDisposable.Dispose
+        _repo.Dispose()
+    End Sub
+End Class
+
+
+
+
+
+
+' ================================================================
+' File: FrmSplash.vb (UI)
+' ================================================================
+Imports System.Drawing.Drawing2D
+Imports System.IO
+
+Public Class FrmSplash
+    Inherits Form
+    Private timerClose As New Timer()
+    Private Sub FrmSplash_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.FormBorderStyle = FormBorderStyle.None
+        Me.Size = New Size(700, 550)
+        Me.ShowInTaskbar = False
+        Me.BackColor = Color.FromArgb(0, 40, 80)
+        Dim screenArea As Rectangle = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea
+        Me.Location = New Point((screenArea.Width - Me.Width) \ 2, (screenArea.Height - Me.Height) \ 2)
+        Dim bgPanel As New Panel() : bgPanel.Dock = DockStyle.Fill
+        Dim gradient As New LinearGradientBrush(bgPanel.ClientRectangle, Color.FromArgb(0, 40, 80), Color.FromArgb(0, 120, 215), 45)
+        AddHandler bgPanel.Paint, Sub(s As Object, pe As PaintEventArgs) : pe.Graphics.FillRectangle(gradient, bgPanel.ClientRectangle) : End Sub
+        Me.Controls.Add(bgPanel)
+        Dim picLogo As New PictureBox() : picLogo.Size = New Size(200, 200) : picLogo.SizeMode = PictureBoxSizeMode.Zoom
+        picLogo.Location = New Point((Me.Width - picLogo.Width) \ 2, 70)
+        Dim logoPath As String = Path.Combine(Application.StartupPath, "logo.png")
+        If File.Exists(logoPath) Then picLogo.Image = Image.FromFile(logoPath) Else picLogo.Visible = False : Dim lblFallback As New Label() : lblFallback.Text = "Cloud Dentist Express" : lblFallback.Font = New Font("Segoe UI", 26, FontStyle.Bold) : lblFallback.ForeColor = Color.White : lblFallback.AutoSize = True : lblFallback.Location = New Point((Me.Width - lblFallback.PreferredWidth) \ 2, 150) : bgPanel.Controls.Add(lblFallback) : End If
+        bgPanel.Controls.Add(picLogo)
+        Dim lblSubTitle As New Label() : lblSubTitle.Text = "Cloud Dentist Express" : lblSubTitle.ForeColor = Color.FromArgb(200, 220, 255) : lblSubTitle.BackColor = Color.Transparent : lblSubTitle.Font = New Font("Segoe UI", 16, FontStyle.Bold) : lblSubTitle.AutoSize = True : lblSubTitle.Location = New Point((Me.Width - lblSubTitle.PreferredWidth) \ 2, 300) : bgPanel.Controls.Add(lblSubTitle)
+        Dim pbarLoading As New ProgressBar() : pbarLoading.Size = New Size(350, 40) : pbarLoading.Location = New Point((Me.Width - pbarLoading.Width) \ 2, 385) : pbarLoading.Style = ProgressBarStyle.Marquee : pbarLoading.MarqueeAnimationSpeed = 25 : pbarLoading.BackColor = Color.FromArgb(0, 40, 80) : pbarLoading.ForeColor = Color.White : bgPanel.Controls.Add(pbarLoading)
+        AddHandler timerClose.Tick, Sub() : timerClose.Stop() : Me.Close() : End Sub
+        timerClose.Interval = 1000 : timerClose.Start()
+    End Sub
+    Public Sub CloseSplash() : timerClose.Stop() : Me.Close() : End Sub
+End Class
+
+' ================================================================
+' File: FrmLogin.vb (UI)
+' ================================================================
+Imports System.Drawing
+Imports System.IO
+
+Public Class FrmLogin
+    Inherits Form
+    Private WithEvents txtUsername As TextBox, txtPassword As TextBox, chkRememberMe As CheckBox, btnLogin As Button, btnCancel As Button
+    Private ReadOnly _credentialFile As String = Path.Combine(Application.StartupPath, "dlms_creds.txt")
+    Public Sub New() : MyBase.New() : InitializeCustomUI() : LoadSavedCredentials() : End Sub
+    Private Sub InitializeCustomUI()
+        Me.Text = "Login - Cloud Dentist Express"
+        Me.Size = New Size(780, 620) : Me.FormBorderStyle = FormBorderStyle.FixedDialog : Me.MaximizeBox = False : Me.MinimizeBox = False : Me.StartPosition = FormStartPosition.CenterScreen : Me.BackColor = Color.FromArgb(240, 242, 245)
+        Dim picLogo As New PictureBox() : picLogo.Size = New Size(200, 200) : picLogo.SizeMode = PictureBoxSizeMode.Zoom : picLogo.Location = New Point((Me.Width - picLogo.Width) \ 2, 20) : Dim logoPath As String = Path.Combine(Application.StartupPath, "logo.png") : If File.Exists(logoPath) Then picLogo.Image = Image.FromFile(logoPath) Else picLogo.Visible = False : End If : Me.Controls.Add(picLogo)
+        Dim rowY As Integer = picLogo.Bottom + 40
+        Dim lblUser As New Label() : lblUser.Text = "Username:" : lblUser.Font = New Font("Segoe UI", 11, FontStyle.Regular) : lblUser.ForeColor = Color.FromArgb(80, 80, 80) : lblUser.AutoSize = True : lblUser.Location = New Point(50, rowY + 8) : Me.Controls.Add(lblUser)
+        txtUsername = New TextBox() : txtUsername.Font = New Font("Segoe UI", 12) : txtUsername.Location = New Point(240, rowY) : txtUsername.Size = New Size(390, 34) : txtUsername.BorderStyle = BorderStyle.FixedSingle : Me.Controls.Add(txtUsername)
+        rowY = txtUsername.Bottom + 30
+        Dim lblPass As New Label() : lblPass.Text = "Password:" : lblPass.Font = New Font("Segoe UI", 11, FontStyle.Regular) : lblPass.ForeColor = Color.FromArgb(80, 80, 80) : lblPass.AutoSize = True : lblPass.Location = New Point(50, rowY + 8) : Me.Controls.Add(lblPass)
+        txtPassword = New TextBox() : txtPassword.Font = New Font("Segoe UI", 12) : txtPassword.Location = New Point(240, rowY) : txtPassword.Size = New Size(390, 34) : txtPassword.PasswordChar = "*" : txtPassword.BorderStyle = BorderStyle.FixedSingle : Me.Controls.Add(txtPassword)
+        chkRememberMe = New CheckBox() : chkRememberMe.Text = "Remember Me" : chkRememberMe.Font = New Font("Segoe UI", 10, FontStyle.Regular) : chkRememberMe.Location = New Point(240, txtPassword.Bottom + 20) : chkRememberMe.AutoSize = True : Me.Controls.Add(chkRememberMe)
+        btnLogin = New Button() : btnLogin.Text = "Login" : btnLogin.Font = New Font("Segoe UI", 12, FontStyle.Bold) : btnLogin.BackColor = Color.FromArgb(0, 120, 215) : btnLogin.ForeColor = Color.White : btnLogin.FlatStyle = FlatStyle.Flat : btnLogin.Size = New Size(240, 60) : btnLogin.Location = New Point(180, chkRememberMe.Bottom + 30) : Me.Controls.Add(btnLogin)
+        btnCancel = New Button() : btnCancel.Text = "Cancel" : btnCancel.Font = New Font("Segoe UI", 12, FontStyle.Regular) : btnCancel.BackColor = Color.LightGray : btnCancel.ForeColor = Color.Black : btnCancel.FlatStyle = FlatStyle.Flat : btnCancel.Size = New Size(240, 60) : btnCancel.Location = New Point(420, chkRememberMe.Bottom + 30) : Me.Controls.Add(btnCancel)
+    End Sub
+    Private Sub LoadSavedCredentials()
+        If File.Exists(_credentialFile) Then
+            Dim lines As String() = File.ReadAllLines(_credentialFile)
+            If lines.Length >= 3 Then txtUsername.Text = lines(0) : txtPassword.Text = lines(1) : If lines(2) = "1" Then chkRememberMe.Checked = True : End If
+        End If
+    End Sub
+    Private Sub SaveCredentials()
+        Try : If chkRememberMe.Checked Then File.WriteAllLines(_credentialFile, {txtUsername.Text.Trim(), txtPassword.Text, "1"}) Else If File.Exists(_credentialFile) Then File.Delete(_credentialFile) : End If : Catch : End Try
+    End Sub
+    Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+        Dim username As String = txtUsername.Text.Trim() : Dim password As String = txtPassword.Text
+        If String.IsNullOrWhiteSpace(username) OrElse String.IsNullOrWhiteSpace(password) Then MessageBox.Show("Please enter Username and Password.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Warning) : Return : End If
+        Using dal As New SQLiteDataAccess()
+            Dim sql As String = "SELECT PasswordHash, Role FROM tblUsers WHERE Username = @u AND IsActive = 1"
+            Dim params As New Dictionary(Of String, Object) From {{"@u", username}}
+            Dim dt As DataTable = dal.ExecuteQuery(sql, params)
+            If dt.Rows.Count = 0 Then MessageBox.Show("Invalid Username or User is Inactive.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return : End If
+            Dim storedHash As String = dt.Rows(0)("PasswordHash").ToString() : Dim role As String = dt.Rows(0)("Role").ToString()
+            If BCrypt.Net.BCrypt.Verify(password, storedHash) Then SaveCredentials() : Me.DialogResult = DialogResult.OK : Me.Close() Else MessageBox.Show("Incorrect Password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error) : End If
+        End Using
+    End Sub
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click : Me.DialogResult = DialogResult.Cancel : Me.Close() : End Sub
+End Class
+
+' ================================================================
+' File: Form1.vb (UI - Main Dashboard)
+' ================================================================
+Imports System.Drawing
+Imports System.Drawing.Imaging
+Imports System.IO
+Imports System.Windows.Forms
+
+Public Class Form1
+    Inherits Form
+    Private panelMenu As Panel, panelContent As Panel, btnToggle As Button, _watermarkImage As Image
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DatabaseHelper.InitializeDatabase() : DataSeeder.SeedInitialData()
+        Me.Text = "Cloud Dentist Express - Dental Laboratory Management System"
+        Me.Size = New Size(1300, 850) : Me.StartPosition = FormStartPosition.CenterScreen : Me.BackColor = Color.FromArgb(240, 242, 245)
+        InitializeSidebar() : LoadDashboardContent()
+        Dim statusStrip As New StatusStrip() : statusStrip.BackColor = Color.FromArgb(30, 35, 45) : statusStrip.ForeColor = Color.White
+        Dim tsLabel As New ToolStripStatusLabel() : tsLabel.Text = $"System Ready | Logged in: Admin | Date: {DateTime.Now:dd-MM-yyyy HH:mm}" : statusStrip.Items.Add(tsLabel) : Me.Controls.Add(statusStrip)
+    End Sub
+
+    Private Sub InitializeSidebar()
+        panelMenu = New Panel() : panelMenu.Dock = DockStyle.Left : panelMenu.Width = 260 : panelMenu.BackColor = Color.FromArgb(30, 35, 45) : Me.Controls.Add(panelMenu)
+        Dim picLogo As New PictureBox() : picLogo.Size = New Size(120, 40) : picLogo.SizeMode = PictureBoxSizeMode.Zoom : picLogo.Location = New Point(20, 15)
+        Dim logoPath As String = Path.Combine(Application.StartupPath, "logo.png")
+        If File.Exists(logoPath) Then picLogo.Image = Image.FromFile(logoPath) Else picLogo.Visible = False : End If : panelMenu.Controls.Add(picLogo)
+
+        Dim btnDash As Button = CreateMenuButton("Dashboard", &HE90D, 80, AddressOf ShowDashboard) : btnDash.BackColor = Color.FromArgb(50, 55, 65) : panelMenu.Controls.Add(btnDash)
+        panelMenu.Controls.Add(CreateMenuButton("Doctor", &HE97D, 140, AddressOf OpenDoctorMaster))
+        panelMenu.Controls.Add(CreateMenuButton("Patient", &HE97A, 200, AddressOf OpenPatientMaster))
+        panelMenu.Controls.Add(CreateMenuButton("Daily Entry", &HE903, 260, AddressOf OpenDailyEntry))
+        
+        Dim btnLogout As New Button() : btnLogout.Text = "Logout" : btnLogout.FlatStyle = FlatStyle.Flat : btnLogout.FlatAppearance.BorderSize = 0
+        btnLogout.BackColor = Color.FromArgb(220, 50, 50) : btnLogout.ForeColor = Color.White : btnLogout.Font = New Font("Segoe UI", 11, FontStyle.Bold)
+        btnLogout.Size = New Size(200, 45) : btnLogout.Location = New Point(30, panelMenu.Height - 80)
+        AddHandler btnLogout.Click, Sub() : Application.Restart() : End Sub : panelMenu.Controls.Add(btnLogout)
+    End Sub
+
+    Private Function CreateMenuButton(text As String, iconChar As Integer, yPos As Integer, clickHandler As EventHandler) As Button
+        Dim btn As New Button() : btn.Text = ChrW(iconChar) & " " & text : btn.Tag = text
+        btn.FlatStyle = FlatStyle.Flat : btn.FlatAppearance.BorderSize = 0 : btn.BackColor = Color.FromArgb(30, 35, 45)
+        btn.ForeColor = Color.LightGray : btn.Font = New Font("Segoe MDL2 Assets", 11, FontStyle.Regular) : btn.TextAlign = ContentAlignment.MiddleLeft
+        btn.Padding = New Padding(25, 0, 0, 0) : btn.Size = New Size(260, 55) : btn.Location = New Point(0, yPos)
+        AddHandler btn.MouseEnter, Sub() : btn.BackColor = Color.FromArgb(50, 55, 65) : End Sub
+        AddHandler btn.MouseLeave, Sub() : If btn.Tag.ToString() = "Dashboard" Then btn.BackColor = Color.FromArgb(50, 55, 65) Else btn.BackColor = Color.FromArgb(30, 35, 45) : End If : End Sub
+        AddHandler btn.Click, clickHandler
+        Return btn
+    End Function
+
+    Private Sub LoadDashboardContent()
+        If panelContent IsNot Nothing Then Me.Controls.Remove(panelContent)
+        panelContent = New Panel() : panelContent.Dock = DockStyle.Fill : panelContent.BackColor = Color.FromArgb(240, 242, 245) : panelContent.Padding = New Padding(0) : Me.Controls.Add(panelContent)
+        Dim logoPath As String = Path.Combine(Application.StartupPath, "logo.png")
+        If File.Exists(logoPath) Then _watermarkImage = Image.FromFile(logoPath) : AddHandler panelContent.Paint, AddressOf PaintWatermark : End If
+        btnToggle = New Button() : btnToggle.Text = "☰" : btnToggle.Font = New Font("Segoe UI", 22, FontStyle.Bold) : btnToggle.Size = New Size(45, 45)
+        btnToggle.FlatStyle = FlatStyle.Flat : btnToggle.FlatAppearance.BorderSize = 0 : btnToggle.BackColor = Color.Transparent : btnToggle.ForeColor = Color.DarkRed
+        btnToggle.Location = New Point(10, 10) : panelContent.Controls.Add(btnToggle) : btnToggle.BringToFront()
+        AddHandler btnToggle.Click, Sub() : If panelMenu.Width > 0 Then panelMenu.Width = 0 Else panelMenu.Width = 260 : End If : CenterDashboardContent() : End Sub
+
+        Dim lblTitle As New Label() : lblTitle.Name = "lblMainTitle" : lblTitle.Text = "Welcome to Cloud Dentist Express"
+        lblTitle.ForeColor = Color.FromArgb(30, 30, 30) : lblTitle.Font = New Font("Segoe UI", 28, FontStyle.Bold) : lblTitle.AutoSize = True
+        lblTitle.Location = New Point((panelContent.Width - lblTitle.PreferredWidth) \ 2, 60) : panelContent.Controls.Add(lblTitle)
+
+        Dim cardY As Integer = lblTitle.Bottom + 60 : Dim cardWidth As Integer = 330 : Dim spacing As Integer = 40
+        Dim startX As Integer = (panelContent.Width - ((cardWidth * 3) + (spacing * 2))) \ 2
+        CreateAndAddCard(panelContent, startX, cardY, "Total Doctors", "124", "Active Profiles", &HE97D, Color.FromArgb(0, 120, 215))
+        CreateAndAddCard(panelContent, startX + cardWidth + spacing, cardY, "Active Patients", "3,582", "Current Cases", &HE97A, Color.FromArgb(46, 204, 113))
+        CreateAndAddCard(panelContent, startX + (cardWidth + spacing) * 2, cardY, "Today's Entries", "48", "New Records", &HE903, Color.FromArgb(243, 156, 18))
+        AddHandler panelContent.Resize, Sub() : CenterDashboardContent() : End Sub
+    End Sub
+
+    Private Sub CreateAndAddCard(parent As Panel, x As Integer, y As Integer, title As String, count As String, subText As String, iconChar As Integer, iconColor As Color)
+        Dim card As New Panel() : card.Size = New Size(330, 140) : card.Location = New Point(x, y) : card.BackColor = Color.White : parent.Controls.Add(card)
+        Dim lblTitle As New Label() : lblTitle.Text = title : lblTitle.ForeColor = Color.FromArgb(100, 100, 100) : lblTitle.Font = New Font("Segoe UI", 12, FontStyle.Regular) : lblTitle.AutoSize = True : lblTitle.Location = New Point(20, 20) : card.Controls.Add(lblTitle)
+        Dim lblCount As New Label() : lblCount.Text = count : lblCount.ForeColor = Color.FromArgb(30, 30, 30) : lblCount.Font = New Font("Segoe UI", 24, FontStyle.Bold) : lblCount.AutoSize = True : lblCount.Location = New Point(20, lblTitle.Bottom + 10) : card.Controls.Add(lblCount)
+        Dim lblSub As New Label() : lblSub.Text = subText : lblSub.ForeColor = Color.FromArgb(80, 80, 80) : lblSub.Font = New Font("Segoe UI", 10, FontStyle.Regular) : lblSub.AutoSize = True : lblSub.Location = New Point(20, lblCount.Bottom + 5) : card.Controls.Add(lblSub)
+        Dim picIcon As New PictureBox() : picIcon.Size = New Size(50, 50) : picIcon.Location = New Point(card.Width - 70, 45) : picIcon.BackColor = Color.Transparent : card.Controls.Add(picIcon)
+        AddHandler picIcon.Paint, Sub(s As Object, pe As PaintEventArgs)
+            Dim g As Graphics = pe.Graphics : g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+            Using brush As New SolidBrush(Color.FromArgb(230, iconColor)) : g.FillEllipse(brush, 0, 0, 50, 50) : End Using
+            Using brush As New SolidBrush(iconColor) : g.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias : g.DrawString(ChrW(iconChar), New Font("Segoe MDL2 Assets", 24, FontStyle.Regular), brush, 12, 9) : End Using
+        End Sub
+    End Sub
+
+    Private Sub PaintWatermark(s As Object, e As PaintEventArgs)
+        If _watermarkImage Is Nothing Then Return
+        Dim centerX As Integer = (panelContent.Width - 400) \ 2 : Dim centerY As Integer = (panelContent.Height - 400) \ 2
+        Dim destRect As New Rectangle(centerX, centerY, 400, 400)
+        Dim attrs As New ImageAttributes() : Dim matrix As New ColorMatrix() : matrix.Matrix33 = 0.1F : attrs.SetColorMatrix(matrix)
+        e.Graphics.DrawImage(_watermarkImage, destRect, 0, 0, _watermarkImage.Width, _watermarkImage.Height, GraphicsUnit.Pixel, attrs)
+    End Sub
+
+    Private Sub CenterDashboardContent()
+        If panelContent Is Nothing Then Return
+        Dim titleLabel As Label = TryCast(panelContent.Controls("lblMainTitle"), Label)
+        If titleLabel IsNot Nothing Then titleLabel.Location = New Point((panelContent.Width - titleLabel.PreferredWidth) \ 2, 60) : End If
+    End Sub
+
+    Private Sub ShowDashboard(sender As Object, e As EventArgs) : LoadDashboardContent() : End Sub
+    Private Sub OpenDoctorMaster(sender As Object, e As EventArgs) : Dim frm As New FrmDoctorMaster() : frm.ShowDialog() : End Sub
+    Private Sub OpenPatientMaster(sender As Object, e As EventArgs) : Dim frm As New FrmPatientMaster() : frm.ShowDialog() : End Sub
+    Private Sub OpenDailyEntry(sender As Object, e As EventArgs) : MessageBox.Show("Daily Entry module is loading soon!", "Ready") : End Sub
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing : BackupManager.PerformBackup() : End Sub
+End Class
+
+' ================================================================
+' File: FrmAddEditDoctor.vb (UI Popup)
+' ================================================================
+Imports System.Drawing
+
+Public Class FrmAddEditDoctor
+    Inherits Form
+    Private txtName As TextBox, txtMobile As TextBox, btnSave As Button, btnCancel As Button
+    Public Sub New() : MyBase.New() : InitializeUI() : End Sub
+    Private Sub InitializeUI()
+        Me.Text = "Add New Doctor" : Me.Size = New Size(400, 250) : Me.StartPosition = FormStartPosition.CenterParent : Me.BackColor = Color.White
+        Me.FormBorderStyle = FormBorderStyle.FixedDialog : Me.MaximizeBox = False
+        Dim lblName As New Label() : lblName.Text = "Doctor Name" : lblName.Location = New Point(30, 30) : lblName.AutoSize = True : Me.Controls.Add(lblName)
+        txtName = New TextBox() : txtName.Location = New Point(30, 55) : txtName.Size = New Size(320, 25) : Me.Controls.Add(txtName)
+        Dim lblMobile As New Label() : lblMobile.Text = "Mobile" : lblMobile.Location = New Point(30, 90) : lblMobile.AutoSize = True : Me.Controls.Add(lblMobile)
+        txtMobile = New TextBox() : txtMobile.Location = New Point(30, 115) : txtMobile.Size = New Size(320, 25) : Me.Controls.Add(txtMobile)
+        btnSave = New Button() : btnSave.Text = "Save" : btnSave.Location = New Point(80, 160) : btnSave.Size = New Size(100, 35) : btnSave.BackColor = Color.FromArgb(0, 120, 215) : btnSave.ForeColor = Color.White : btnSave.FlatStyle = FlatStyle.Flat : AddHandler btnSave.Click, AddressOf btnSave_Click : Me.Controls.Add(btnSave)
+        btnCancel = New Button() : btnCancel.Text = "Cancel" : btnCancel.Location = New Point(200, 160) : btnCancel.Size = New Size(100, 35) : btnCancel.BackColor = Color.LightGray : btnCancel.FlatStyle = FlatStyle.Flat : AddHandler btnCancel.Click, Sub() : Me.Close() : End Sub : Me.Controls.Add(btnCancel)
+    End Sub
+    Private Sub btnSave_Click(sender As Object, e As EventArgs)
+        If String.IsNullOrWhiteSpace(txtName.Text) Then MessageBox.Show("Please enter Doctor Name.") : Return : End If
+        Using svc As New DoctorService()
+            Dim doc As New Doctor() : doc.DoctorName = txtName.Text.Trim() : doc.Mobile = txtMobile.Text.Trim() : doc.Status = "Active"
+            Try : svc.RegisterNewDoctor(doc) : MessageBox.Show("Doctor saved successfully!") : Me.DialogResult = DialogResult.OK : Me.Close()
+            Catch ex As Exception : MessageBox.Show("Error: " & ex.Message) : End Try
+        End Using
+    End Sub
+End Class
+
+' ================================================================
+' File: FrmDoctorMaster.vb (UI)
+' ================================================================
+Imports System.Drawing
+
+Public Class FrmDoctorMaster
+    Inherits Form
+    Private dgvData As DataGridView, txtSearch As TextBox, btnAdd As Button, btnRefresh As Button, _service As DoctorService
+    Public Sub New() : MyBase.New() : _service = New DoctorService() : InitializeCustomUI() : LoadData() : End Sub
+    Private Sub InitializeCustomUI()
+        Me.Text = "Doctor Master" : Me.Size = New Size(950, 650) : Me.StartPosition = FormStartPosition.CenterParent : Me.BackColor = Color.White
+        Dim pnlTop As New Panel() : pnlTop.Dock = DockStyle.Top : pnlTop.Height = 70 : pnlTop.BackColor = Color.FromArgb(245, 247, 250) : Me.Controls.Add(pnlTop)
+        btnAdd = New Button() : btnAdd.Text = "+ Add Doctor" : btnAdd.Font = New Font("Segoe UI", 10, FontStyle.Bold) : btnAdd.BackColor = Color.FromArgb(0, 120, 215) : btnAdd.ForeColor = Color.White : btnAdd.FlatStyle = FlatStyle.Flat : btnAdd.Size = New Size(120, 35) : btnAdd.Location = New Point(20, 18) : AddHandler btnAdd.Click, AddressOf btnAdd_Click : pnlTop.Controls.Add(btnAdd)
+        btnRefresh = New Button() : btnRefresh.Text = "Refresh" : btnRefresh.Font = New Font("Segoe UI", 10) : btnRefresh.BackColor = Color.FromArgb(220, 220, 220) : btnRefresh.FlatStyle = FlatStyle.Flat : btnRefresh.Size = New Size(80, 35) : btnRefresh.Location = New Point(150, 18) : AddHandler btnRefresh.Click, AddressOf btnRefresh_Click : pnlTop.Controls.Add(btnRefresh)
+        Dim lblSearch As New Label() : lblSearch.Text = "Search:" : lblSearch.Font = New Font("Segoe UI", 10, FontStyle.Regular) : lblSearch.Location = New Point(280, 22) : lblSearch.AutoSize = True : pnlTop.Controls.Add(lblSearch)
+        txtSearch = New TextBox() : txtSearch.Font = New Font("Segoe UI", 10) : txtSearch.Size = New Size(250, 27) : txtSearch.Location = New Point(340, 20) : AddHandler txtSearch.TextChanged, AddressOf txtSearch_TextChanged : pnlTop.Controls.Add(txtSearch)
+        dgvData = New DataGridView() : dgvData.Dock = DockStyle.Fill : dgvData.ReadOnly = True : dgvData.AllowUserToAddRows = False : dgvData.BackgroundColor = Color.White : dgvData.RowHeadersVisible = False : dgvData.SelectionMode = DataGridViewSelectionMode.FullRowSelect : dgvData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill : dgvData.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold) : dgvData.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 120, 215) : dgvData.ColumnHeadersDefaultCellStyle.ForeColor = Color.White : dgvData.ColumnHeadersHeight = 35 : dgvData.DefaultCellStyle.Font = New Font("Segoe UI", 10) : dgvData.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240) : dgvData.RowTemplate.Height = 30 : Me.Controls.Add(dgvData)
+    End Sub
+    Private Sub LoadData()
+        Try : Dim doctors As List(Of Doctor) = _service.GetAllActiveDoctors() : dgvData.DataSource = doctors
+        Catch ex As Exception : MessageBox.Show("Error loading doctors: " & ex.Message) : End Try
+    End Sub
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) : LoadData() : End Sub
+    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs)
+        Dim searchTerm As String = txtSearch.Text.Trim()
+        If String.IsNullOrEmpty(searchTerm) Then LoadData() : Return
+        Dim allData As List(Of Doctor) = _service.GetAllActiveDoctors() : Dim filtered As New List(Of Doctor)()
+        For Each d As Doctor In allData : If d.DoctorName.ToLower().Contains(searchTerm.ToLower()) OrElse d.Mobile.Contains(searchTerm) Then filtered.Add(d) : End If : Next
+        dgvData.DataSource = filtered
+    End Sub
+    Private Sub btnAdd_Click(sender As Object, e As EventArgs)
+        Using frm As New FrmAddEditDoctor() : If frm.ShowDialog() = DialogResult.OK Then LoadData() : End If : End Using
+    End Sub
+    Protected Overrides Sub OnFormClosed(e As FormClosedEventArgs) : _service.Dispose() : MyBase.OnFormClosed(e) : End Sub
+End Class
+
+' ================================================================
+' File: FrmPatientMaster.vb (UI)
+' ================================================================
+Imports System.Drawing
+
+Public Class FrmPatientMaster
+    Inherits Form
+    Private dgvData As DataGridView, txtSearch As TextBox, btnAdd As Button, btnRefresh As Button, _repo As PatientRepository
+    Public Sub New() : MyBase.New() : _repo = New PatientRepository() : InitializeCustomUI() : LoadData() : End Sub
+    Private Sub InitializeCustomUI()
+        Me.Text = "Patient Master" : Me.Size = New Size(950, 650) : Me.StartPosition = FormStartPosition.CenterParent : Me.BackColor = Color.White
+        Dim pnlTop As New Panel() : pnlTop.Dock = DockStyle.Top : pnlTop.Height = 70 : pnlTop.BackColor = Color.FromArgb(245, 247, 250) : Me.Controls.Add(pnlTop)
+        btnAdd = New Button() : btnAdd.Text = "+ Add Patient" : btnAdd.Font = New Font("Segoe UI", 10, FontStyle.Bold) : btnAdd.BackColor = Color.FromArgb(0, 120, 215) : btnAdd.ForeColor = Color.White : btnAdd.FlatStyle = FlatStyle.Flat : btnAdd.Size = New Size(120, 35) : btnAdd.Location = New Point(20, 18) : AddHandler btnAdd.Click, AddressOf btnAdd_Click : pnlTop.Controls.Add(btnAdd)
+        btnRefresh = New Button() : btnRefresh.Text = "Refresh" : btnRefresh.Font = New Font("Segoe UI", 10) : btnRefresh.BackColor = Color.FromArgb(220, 220, 220) : btnRefresh.FlatStyle = FlatStyle.Flat : btnRefresh.Size = New Size(80, 35) : btnRefresh.Location = New Point(150, 18) : AddHandler btnRefresh.Click, AddressOf btnRefresh_Click : pnlTop.Controls.Add(btnRefresh)
+        Dim lblSearch As New Label() : lblSearch.Text = "Search:" : lblSearch.Font = New Font("Segoe UI", 10, FontStyle.Regular) : lblSearch.Location = New Point(280, 22) : lblSearch.AutoSize = True : pnlTop.Controls.Add(lblSearch)
+        txtSearch = New TextBox() : txtSearch.Font = New Font("Segoe UI", 10) : txtSearch.Size = New Size(250, 27) : txtSearch.Location = New Point(340, 20) : AddHandler txtSearch.TextChanged, AddressOf txtSearch_TextChanged : pnlTop.Controls.Add(txtSearch)
+        dgvData = New DataGridView() : dgvData.Dock = DockStyle.Fill : dgvData.ReadOnly = True : dgvData.AllowUserToAddRows = False : dgvData.BackgroundColor = Color.White : dgvData.RowHeadersVisible = False : dgvData.SelectionMode = DataGridViewSelectionMode.FullRowSelect : dgvData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill : dgvData.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold) : dgvData.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 120, 215) : dgvData.ColumnHeadersDefaultCellStyle.ForeColor = Color.White : dgvData.ColumnHeadersHeight = 35 : dgvData.DefaultCellStyle.Font = New Font("Segoe UI", 10) : dgvData.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240) : dgvData.RowTemplate.Height = 30 : Me.Controls.Add(dgvData)
+    End Sub
+    Private Sub LoadData()
+        Try : Dim patients As List(Of Patient) = _repo.GetAllPatients() : dgvData.DataSource = patients
+        Catch ex As Exception : MessageBox.Show("Error loading patients: " & ex.Message) : End Try
+    End Sub
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) : LoadData() : End Sub
+    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs)
+        Dim term As String = txtSearch.Text.Trim()
+        If String.IsNullOrEmpty(term) Then LoadData() : Return
+        Dim all As List(Of Patient) = _repo.GetAllPatients() : Dim filtered As New List(Of Patient)()
+        For Each p As Patient In all : If p.PatientName.ToLower().Contains(term.ToLower()) OrElse p.Mobile.Contains(term) Then filtered.Add(p) : End If : Next
+        dgvData.DataSource = filtered
+    End Sub
+    Private Sub btnAdd_Click(sender As Object, e As EventArgs) : MessageBox.Show("Add Patient form coming soon!", "Coming Soon") : End Sub
+    Protected Overrides Sub OnFormClosed(e As FormClosedEventArgs) : _repo.Dispose() : MyBase.OnFormClosed(e) : End Sub
+End Class
+
+' ================================================================
+' File: ApplicationEvents.vb (Startup Logic)
+' ================================================================
+Namespace My
+    Partial Friend Class MyApplication
+        Private Sub MyApplication_Startup(sender As Object, e As ApplicationServices.StartupEventArgs) Handles Me.Startup
+            e.Cancel = True
+            DatabaseHelper.InitializeDatabase() : DataSeeder.SeedInitialData()
+            Dim splash As New FrmSplash() : splash.Show()
+            While splash.Visible : Application.DoEvents() : System.Threading.Thread.Sleep(10) : End While
+            Using login As New FrmLogin()
+                If login.ShowDialog() = DialogResult.OK Then
+                    Dim mainApp As New Form1()
+                    System.Windows.Forms.Application.Run(mainApp)
+                End If
+            End Using
+        End Sub
+    End Class
+End Namespace

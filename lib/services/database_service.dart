@@ -5,6 +5,7 @@ import '../models/order.dart';
 import '../models/branch.dart';
 import '../models/bill.dart';
 import '../models/notification.dart';
+import '../models/patient.dart';
 
 // Stub Realm configuration to bypass complex local Android NDK compilation
 // for Realm C++ binaries. To enable online MongoDB Sync, restore the package:realm imports.
@@ -32,6 +33,7 @@ class DatabaseService extends GetxService {
   final branches = <BranchModel>[].obs;
   final bills = <BillModel>[].obs;
   final notifications = <NotificationModel>[].obs;
+  final patients = <PatientModel>[].obs;
 
   @override
   void onInit() {
@@ -262,6 +264,40 @@ class DatabaseService extends GetxService {
         isRead: false,
       ),
     ]);
+
+    // Seed Patients
+    patients.addAll([
+      PatientModel(
+        id: 'pat_1',
+        name: 'John Doe',
+        age: 45,
+        gender: 'Male',
+        bloodPressure: '135/85 mmHg (Prehypertension)',
+        hasAilment: true,
+        ailmentDetails: 'Diabetes Type II, Slight Hypertension',
+        doctorId: 'doc_1',
+      ),
+      PatientModel(
+        id: 'pat_2',
+        name: 'Sarah Connor',
+        age: 32,
+        gender: 'Female',
+        bloodPressure: '120/80 mmHg (Normal)',
+        hasAilment: false,
+        ailmentDetails: 'None',
+        doctorId: 'doc_1',
+      ),
+      PatientModel(
+        id: 'pat_3',
+        name: 'Robert Tables',
+        age: 28,
+        gender: 'Male',
+        bloodPressure: '115/75 mmHg (Normal)',
+        hasAilment: true,
+        ailmentDetails: 'Allergic to Penicillin',
+        doctorId: 'doc_1',
+      ),
+    ]);
   }
 
   // CRUD for Products
@@ -332,5 +368,19 @@ class DatabaseService extends GetxService {
     if (index >= 0) {
       notifications[index] = notifications[index].copyWith(isRead: true);
     }
+  }
+
+  // Patients Management
+  void savePatient(PatientModel patient) {
+    final index = patients.indexWhere((p) => p.id == patient.id);
+    if (index >= 0) {
+      patients[index] = patient;
+    } else {
+      patients.insert(0, patient);
+    }
+  }
+
+  void deletePatient(String id) {
+    patients.removeWhere((p) => p.id == id);
   }
 }

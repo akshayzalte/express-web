@@ -8,6 +8,7 @@ import '../services/pdf_service.dart';
 import '../services/connectivity_service.dart';
 import '../models/order.dart';
 import '../models/bill.dart';
+import '../models/patient.dart';
 
 class DoctorController extends GetxController {
   final DatabaseService _db = Get.find<DatabaseService>();
@@ -21,6 +22,7 @@ class DoctorController extends GetxController {
   final notesController = TextEditingController();
   
   final selectedProduct = ''.obs;
+  final selectedPatient = Rxn<PatientModel>();
   final selectedBranch = ''.obs;
   final selectedTeeth = <int>[].obs;
   final selectedTechnicianId = 'auto'.obs; // 'auto' or technician user ID
@@ -52,6 +54,15 @@ class DoctorController extends GetxController {
       selectedTeeth.remove(number);
     } else {
       selectedTeeth.add(number);
+    }
+  }
+
+  void selectPatient(PatientModel? patient) {
+    selectedPatient.value = patient;
+    if (patient != null) {
+      patientNameController.text = patient.name;
+    } else {
+      patientNameController.clear();
     }
   }
 
@@ -109,6 +120,14 @@ class DoctorController extends GetxController {
       }
     }
 
+    String? orderNotes = notesController.text.trim().isEmpty ? null : notesController.text.trim();
+    if (selectedPatient.value != null) {
+      final p = selectedPatient.value!;
+      final ailmentStr = p.hasAilment ? p.ailmentDetails : 'None';
+      final header = "[Patient Details: ${p.age} y/o ${p.gender}, BP: ${p.bloodPressure}, Ailments: $ailmentStr]";
+      orderNotes = orderNotes != null ? "$header\n$orderNotes" : header;
+    }
+
     final newOrder = OrderModel(
       id: orderId,
       patientName: patientNameController.text.trim(),
@@ -120,7 +139,7 @@ class DoctorController extends GetxController {
       photoUrl: selectedPhotoPath.value.isEmpty ? null : selectedPhotoPath.value,
       branch: selectedBranch.value,
       callMeToggle: callMe.value,
-      notes: notesController.text.trim().isEmpty ? null : notesController.text.trim(),
+      notes: orderNotes,
       status: status,
       technicianId: techId,
       technicianName: techName,
@@ -182,6 +201,7 @@ class DoctorController extends GetxController {
     callMe.value = false;
     selectedPhotoPath.value = '';
     selectedDueDate.value = DateTime.now().add(const Duration(days: 7));
+    selectedPatient.value = null;
   }
 
 

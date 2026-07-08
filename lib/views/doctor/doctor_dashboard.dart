@@ -340,16 +340,9 @@ class DoctorDashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _navItem(context, Icons.assignment, 'Cases', activeIndex == 0, () {}),
-          _navItem(context, Icons.inventory_2_outlined, 'Inventory', activeIndex == 2, () => Get.toNamed('/inventory')),
+          _navItem(context, Icons.people_outline_rounded, 'Patients', activeIndex == 1, () => Get.toNamed('/patients')),
           _addCaseButton(context),
-          _navItem(
-            context,
-            Icons.notifications_outlined,
-            'Alerts',
-            activeIndex == 4,
-            () => Get.toNamed('/notifications'),
-            badgeCount: unreadCount,
-          ),
+          _navItem(context, Icons.inventory_2_outlined, 'Inventory', activeIndex == 2, () => Get.toNamed('/inventory')),
           _navItem(context, Icons.person_rounded, 'Profile', activeIndex == 3, () => Get.toNamed('/profile')),
         ],
       ),

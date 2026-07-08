@@ -8,6 +8,7 @@ import 'services/fcm_service.dart';
 import 'services/connectivity_service.dart';
 import 'views/doctor/doctor_under_review_view.dart';
 import 'views/doctor/doctor_inventory.dart';
+import 'views/doctor/doctor_patients.dart';
 import 'views/login_view.dart';
 import 'views/doctor/doctor_dashboard.dart';
 import 'views/doctor/new_order_form.dart';
@@ -139,6 +140,7 @@ class CloudDentalExpressApp extends StatelessWidget {
         GetPage(name: '/profile', page: () => const DoctorProfile()),
         GetPage(name: '/notifications', page: () => const DoctorNotifications()),
         GetPage(name: '/inventory', page: () => const DoctorInventory()),
+        GetPage(name: '/patients', page: () => const DoctorPatients()),
 
         // Admin Pages
         GetPage(name: '/admin-dashboard', page: () => const AdminDashboard()),

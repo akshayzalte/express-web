@@ -8,6 +8,7 @@ import '../../services/database_service.dart';
 import '../../widgets/glass_container.dart';
 import '../../widgets/glass_button.dart';
 import '../../widgets/glass_input.dart';
+import '../../models/patient.dart';
 
 class NewOrderForm extends StatelessWidget {
   const NewOrderForm({super.key});
@@ -56,13 +57,127 @@ class NewOrderForm extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 18),
                     ),
                     const SizedBox(height: 16),
-                    GlassInput(
-                      controller: controller.patientNameController,
-                      labelText: 'Patient Full Name',
-                      hintText: 'Jane Doe',
+                    Obx(() => GlassInput(
+                      controller: TextEditingController(text: controller.selectedPatient.value?.name ?? ''),
+                      labelText: 'Select Patient',
+                      hintText: 'Tap to select patient...',
                       prefixIcon: Icons.person_outline_rounded,
-                      validator: (v) => v!.isEmpty ? 'Enter patient name' : null,
-                    ),
+                      readOnly: true,
+                      onTap: () => _showPatientSelectBottomSheet(context, db, controller),
+                      suffixIcon: Icon(
+                        Icons.arrow_drop_down_rounded,
+                        color: isDark ? Colors.white70 : Colors.black87,
+                      ),
+                      validator: (v) => controller.selectedPatient.value == null ? 'Please select a patient' : null,
+                    )),
+                    Obx(() {
+                      final p = controller.selectedPatient.value;
+                      if (p == null) return const SizedBox.shrink();
+                      
+                      final hasHistory = p.hasAilment;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isDark ? Colors.white.withOpacity(0.04) : Colors.black.withOpacity(0.02),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Patient Health Card',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: isDark ? Colors.white70 : Colors.black87,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${p.age}y / ${p.gender}',
+                                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
+                                const Divider(height: 16),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.favorite_border_rounded, size: 14, color: Colors.grey),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      'Blood Pressure: ${p.bloodPressure}',
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      hasHistory ? Icons.warning_amber_rounded : Icons.check_circle_outline,
+                                      size: 14,
+                                      color: hasHistory ? Colors.redAccent : Colors.green,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Expanded(
+                                      child: Text(
+                                        hasHistory ? 'Medical History: ${p.ailmentDetails}' : 'No Medical History',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: hasHistory ? Colors.redAccent : Colors.green,
+                                          fontWeight: hasHistory ? FontWeight.w600 : FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.history_rounded,
+                                      size: 14,
+                                      color: p.clinicalHistory != null &&
+                                              p.clinicalHistory!.isNotEmpty &&
+                                              p.clinicalHistory != 'None'
+                                          ? const Color(0xFF00ADB5)
+                                          : Colors.grey,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Expanded(
+                                      child: Text(
+                                        p.clinicalHistory != null &&
+                                                p.clinicalHistory!.isNotEmpty &&
+                                                p.clinicalHistory != 'None'
+                                            ? 'Clinical History: ${p.clinicalHistory}'
+                                            : 'No Clinical History',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: p.clinicalHistory != null &&
+                                                  p.clinicalHistory!.isNotEmpty &&
+                                                  p.clinicalHistory != 'None'
+                                              ? const Color(0xFF00ADB5)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                     const SizedBox(height: 16),
                     // Due Date Picker
                     Text(
@@ -135,45 +250,36 @@ class NewOrderForm extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     
-                    // Upper Arch
-                    Text(
-                      'Upper Arch',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    GridView.count(
-                      crossAxisCount: 8,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 6,
-                      crossAxisSpacing: 6,
-                      childAspectRatio: 0.8,
-                      children: List.generate(16, (index) {
-                        final toothNum = index + 1;
-                        return _toothBox(toothNum, controller);
-                      }),
-                    ),
-                    const SizedBox(height: 12),
-                    Divider(color: isDark ? Colors.white12 : Colors.black12),
-                    const SizedBox(height: 8),
-
-                    // Lower Arch
-                    Text(
-                      'Lower Arch',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    GridView.count(
-                      crossAxisCount: 8,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 6,
-                      crossAxisSpacing: 6,
-                      childAspectRatio: 0.8,
-                      children: List.generate(16, (index) {
-                        final toothNum = 32 - index;
-                        return _toothBox(toothNum, controller);
-                      }),
+                    // 2x2 Quadrant Grid
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Left Arches (UR & LR)
+                        Expanded(
+                          child: Column(
+                            children: [
+                              // Upper Right Quadrant (UR)
+                              _quadrantBox('Upper Right (UR)', [8, 7, 6, 5, 4, 3, 2, 1], controller, isDark),
+                              const SizedBox(height: 12),
+                              // Lower Right Quadrant (LR)
+                              _quadrantBox('Lower Right (LR)', [32, 31, 30, 29, 28, 27, 26, 25], controller, isDark),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        // Right Arches (UL & LL)
+                        Expanded(
+                          child: Column(
+                            children: [
+                              // Upper Left Quadrant (UL)
+                              _quadrantBox('Upper Left (UL)', [9, 10, 11, 12, 13, 14, 15, 16], controller, isDark),
+                              const SizedBox(height: 12),
+                              // Lower Left Quadrant (LL)
+                              _quadrantBox('Lower Left (LL)', [17, 18, 19, 20, 21, 22, 23, 24], controller, isDark),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -496,5 +602,118 @@ class NewOrderForm extends StatelessWidget {
         ),
       );
     });
+  }
+
+  void _showPatientSelectBottomSheet(BuildContext context, DatabaseService db, DoctorController controller) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark ? GlacierColors.darkPrimary : GlacierColors.lightPrimary;
+
+    Get.bottomSheet(
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.6,
+        child: GlassContainer(
+          padding: const EdgeInsets.all(20),
+          borderRadius: 24,
+          customBgColor: isDark ? const Color(0xFF0F1E31) : Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Select Patient',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Get.back(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: activeColor.withOpacity(0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.add, color: activeColor),
+                ),
+                title: const Text('Add New Patient', style: TextStyle(fontWeight: FontWeight.bold)),
+                onTap: () {
+                  Get.back();
+                  Get.toNamed('/patients');
+                },
+              ),
+              const Divider(),
+              Expanded(
+                child: Obx(() {
+                  if (db.patients.isEmpty) {
+                    return const Center(child: Text('No patients found.'));
+                  }
+                  return ListView.builder(
+                    itemCount: db.patients.length,
+                    itemBuilder: (context, index) {
+                      final p = db.patients[index];
+                      return ListTile(
+                        leading: Icon(
+                          p.gender.toLowerCase() == 'male' ? Icons.face_rounded : Icons.face_3_rounded,
+                          color: Colors.grey,
+                        ),
+                        title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text('${p.age} y/o • BP: ${p.bloodPressure}'),
+                        trailing: controller.selectedPatient.value?.id == p.id
+                            ? Icon(Icons.check_circle, color: activeColor)
+                            : null,
+                        onTap: () {
+                          controller.selectPatient(p);
+                          Get.back();
+                        },
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  Widget _quadrantBox(String title, List<int> teeth, DoctorController controller, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withOpacity(0.02) : Colors.black.withOpacity(0.01),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.grey),
+          ),
+          const SizedBox(height: 6),
+          GridView.count(
+            crossAxisCount: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            childAspectRatio: 1.1,
+            children: teeth.map((t) => _toothBox(t, controller)).toList(),
+          ),
+        ],
+      ),
+    );
   }
 }
